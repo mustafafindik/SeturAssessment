@@ -1,7 +1,7 @@
 ﻿using System;
-using SeturTest.Contact.Entities.Abstract;
+using SeturAssessment.ReportService.Entities.Abstract;
 
-namespace SeturAssessment.Reports.Entities.Concrete
+namespace SeturAssessment.ReportService.Entities.Concrete
 {
     public class Reports : IEntity
     {

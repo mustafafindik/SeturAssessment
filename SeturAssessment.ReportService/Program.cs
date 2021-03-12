@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SeturAssessment.Reports
+namespace SeturAssessment.ReportService
 {
     public class Program
     {

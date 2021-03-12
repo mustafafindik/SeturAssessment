@@ -1,6 +1,6 @@
 using System;
 
-namespace SeturAssessment.Reports
+namespace SeturAssessment.ReportService
 {
     public class WeatherForecast
     {

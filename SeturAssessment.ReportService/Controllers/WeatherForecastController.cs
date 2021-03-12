@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SeturAssessment.Reports.Controllers
+namespace SeturAssessment.ReportService.Controllers
 {
     [ApiController]
     [Route("[controller]")]

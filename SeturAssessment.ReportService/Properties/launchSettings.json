@@ -4,8 +4,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:13767",
-      "sslPort": 44319
+      "applicationUrl": "http://localhost:3070",
+      "sslPort": 44303
     }
   },
   "profiles": {
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "SeturAssessment.Reports": {
+    "SeturAssessment.ReportService": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
