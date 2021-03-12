@@ -12,9 +12,14 @@ namespace SeturAssessment.ReportService.DataAccess.Concrete.EntityFrameworkCore.
 
         public DbSet<ReportStatus> ReportStatuses { get; set; }
         public DbSet<Reports> Reports { get; set; }
-     
 
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ReportStatus>().HasData(
+                new ReportStatus {Id = 1, StatusName = "Hazırlanıyor"},
+                new ReportStatus {Id = 2, StatusName = "Tamamlandı"});
+        }
     }
 
 }
