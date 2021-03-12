@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SeturAssessment.ReportService.DataAccess.Concrete.EntityFrameworkCore.Contexts;
 
 namespace SeturAssessment.ReportService
 {
@@ -28,6 +30,11 @@ namespace SeturAssessment.ReportService
         {
 
             services.AddControllers();
+            services.AddDbContext<ApplicationDbContext>(options =>
+
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SeturAssessment.ReportService")).EnableSensitiveDataLogging(), ServiceLifetime.Scoped
+
+            );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SeturAssessment.ReportService", Version = "v1" });

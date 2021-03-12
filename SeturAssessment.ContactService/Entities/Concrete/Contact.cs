@@ -12,5 +12,7 @@ namespace SeturAssessment.ContactService.Entities.Concrete
         public string Firm { get; set; }
 
         public virtual  ICollection<Email> Emails { get; set; }
+        public virtual ICollection<Phone> PhoneNumbers { get; set; }
+        public ICollection<ContactLocation> ContactLocations { get; set; }
     }
 }

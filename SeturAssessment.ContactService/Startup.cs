@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SeturAssessment.ContactService.DataAccess.Concrete.EntityFrameworkCore.Contexts;
 
 namespace SeturAssessment.ContactService
 {
@@ -28,6 +30,11 @@ namespace SeturAssessment.ContactService
         {
 
             services.AddControllers();
+            services.AddDbContext<ApplicationDbContext>(options =>
+
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SeturAssessment.ContactService")).EnableSensitiveDataLogging(), ServiceLifetime.Scoped
+
+            );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SeturAssessment.ContactService", Version = "v1" });

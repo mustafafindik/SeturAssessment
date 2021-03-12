@@ -7,7 +7,7 @@ namespace SeturAssessment.ReportService.Entities.Concrete
     {
         public Guid Id { get; set; }
         public DateTime? RequestDate { get; set; }
-        public int StatusId { get; set; }
+        public int ReportStatusId { get; set; }
         public ReportStatus ReportStatus { get; set; }
 
     } 
