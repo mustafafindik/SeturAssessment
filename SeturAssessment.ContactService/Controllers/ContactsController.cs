@@ -28,7 +28,7 @@ namespace SeturAssessment.ContactService.Controllers
         public IActionResult Get()
         {
             var result = _contactManager.GetAll();
-            var resultDto = _mapper.Map<List<ContactDto>>(result);
+            var resultDto = _mapper.Map<List<ContactListDto>>(result);
             return Ok(resultDto);
         }
 
@@ -36,17 +36,17 @@ namespace SeturAssessment.ContactService.Controllers
         public IActionResult Get(Guid id)
         {
             var result = _contactManager.Get(id);
-            var resultDto = _mapper.Map<ContactDto>(result);
+            var resultDto = _mapper.Map<ContactListDto>(result);
             return Ok(resultDto);
         }
 
         [HttpPost("add")]
 
 
-        public IActionResult Add(Contact contact)
+        public IActionResult Add(ContactDto contactDto)
         {
-
-             _contactManager.Add(contact);
+            var contact = _mapper.Map<Contact>(contactDto);
+            _contactManager.Add(contact);
              return Ok();
            
 
@@ -55,10 +55,10 @@ namespace SeturAssessment.ContactService.Controllers
         [HttpPost("update")]
 
 
-        public IActionResult Update([FromBody] Contact contact)
+        public IActionResult Update([FromBody] ContactDto contactDto)
         {
 
-
+            var contact = _mapper.Map<Contact>(contactDto);
             _contactManager.Update(contact);
             return Ok();
         }
@@ -66,8 +66,9 @@ namespace SeturAssessment.ContactService.Controllers
 
         [HttpPost("delete")]
 
-        public IActionResult Delete(Contact contact)
+        public IActionResult Delete(ContactDto contactDto)
         {
+            var contact = _mapper.Map<Contact>(contactDto);
             _contactManager.Delete(contact.Id);
             return Ok();
         }

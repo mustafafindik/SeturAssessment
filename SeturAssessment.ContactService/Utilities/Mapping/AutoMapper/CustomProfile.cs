@@ -12,7 +12,7 @@ namespace SeturAssessment.ContactService.Utilities.Mapping.AutoMapper
     {
         public CustomProfile()
         {
-            CreateMap<Contact, ContactDto>()
+            CreateMap<Contact, ContactListDto>()
                 .ForMember(dest=>dest.Emails,opt=>
                     opt.MapFrom(a =>  a.Emails.Select(q=>q.MailAddress).ToArray()))
                 .ForMember(dest => dest.PhoneNumbers, opt =>
@@ -20,6 +20,8 @@ namespace SeturAssessment.ContactService.Utilities.Mapping.AutoMapper
                 .ForMember(dest => dest.Locations, opt =>
                     opt.MapFrom(a => a.ContactLocations.Select(q => q.Location.LocationName).ToArray()))
                 ;
+
+            CreateMap<Contact, ContactDto>().ReverseMap();
         }
     }
 }
