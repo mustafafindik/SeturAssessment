@@ -19,12 +19,12 @@ namespace SeturAssessment.ContactService.Business.Concrete
 
         public IList<Contact> GetAll()
         {
-           return _contactRepository.GetAll(new string[] {"Emails", "PhoneNumbers", "ContactLocations"}).ToList();
+           return _contactRepository.GetAll(new string[] {"Emails", "PhoneNumbers", "ContactLocations.Location"}).ToList();
         }
 
         public Contact Get(Guid id)
         {
-            return _contactRepository.GetAll(new string[] { "Emails", "PhoneNumbers", "ContactLocations" }).FirstOrDefault(q=>q.Id==id);
+            return _contactRepository.GetAll(new string[] { "Emails", "PhoneNumbers", "ContactLocations.Location" }).FirstOrDefault(q=>q.Id==id);
 
         }
 

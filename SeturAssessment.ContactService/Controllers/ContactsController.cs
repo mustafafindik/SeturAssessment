@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using SeturAssessment.ContactService.Business.Abstract;
+using SeturAssessment.ContactService.Entities.Dto;
 
 namespace SeturAssessment.ContactService.Controllers
 {
@@ -13,17 +15,20 @@ namespace SeturAssessment.ContactService.Controllers
     public class ContactsController : ControllerBase
     {
         private readonly IContactManager _contactManager;
+        private readonly IMapper _mapper;
 
-        public ContactsController(IContactManager contactManager)
+        public ContactsController(IContactManager contactManager, IMapper mapper)
         {
             _contactManager = contactManager;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
             var result = _contactManager.GetAll();
-            return Ok(result);
+            var resultDto = _mapper.Map<List<ContactDto>>(result);
+            return Ok(resultDto);
         }
     }
 }
