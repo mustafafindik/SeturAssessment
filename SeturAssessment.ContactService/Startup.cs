@@ -29,7 +29,9 @@ namespace SeturAssessment.ContactService
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            ); 
             services.AddDbContext<ApplicationDbContext>(options =>
 
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SeturAssessment.ContactService")).EnableSensitiveDataLogging(), ServiceLifetime.Scoped
