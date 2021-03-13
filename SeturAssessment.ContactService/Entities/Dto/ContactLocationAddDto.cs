@@ -6,9 +6,9 @@ using SeturAssessment.ContactService.Entities.Abstract;
 
 namespace SeturAssessment.ContactService.Entities.Dto
 {
-    public class ContactLocationDto:IDto
+    public class ContactLocationAddDto:IDto
     {
-        public int ContactLocationId { get; set; }
+        public Guid ContactId { get; set; }
         public string LocationName { get; set; }
     }
 }

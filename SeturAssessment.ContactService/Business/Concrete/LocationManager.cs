@@ -30,7 +30,7 @@ namespace SeturAssessment.ContactService.Business.Concrete
             return _contactLocationRepository.Get(q=>q.ContactId==contactId, "Location");
         }
 
-        public void Add(ContactLocationDto location)
+        public void Add(ContactLocationAddDto location)
         {
             var locationHaveBefore = LocationNameExist(location.LocationName,out var locationId);
             if (locationHaveBefore)
@@ -48,10 +48,10 @@ namespace SeturAssessment.ContactService.Business.Concrete
 
         }
 
-        public void Update(int id, ContactLocationDto location)
+        public void Update(ContactLocationDto contactLocation)
         {
-            var entitiy = _contactLocationRepository.Get(q => q.Id == id);
-            var locationHaveBefore = LocationNameExist(location.LocationName, out var locationId);
+            var entitiy = _contactLocationRepository.Get(q => q.Id == contactLocation.ContactLocationId);
+            var locationHaveBefore = LocationNameExist(contactLocation.LocationName, out var locationId);
             if (locationHaveBefore)
             {
                 entitiy.LocationId = locationId;
@@ -60,7 +60,7 @@ namespace SeturAssessment.ContactService.Business.Concrete
             else
             {
                 //Transaction 
-                var newLocation = new Location() { LocationName = location.LocationName };
+                var newLocation = new Location() { LocationName = contactLocation.LocationName };
                 _locationRepository.Add(newLocation);
                 entitiy.LocationId = newLocation.Id;
                 _contactLocationRepository.Update(entitiy, entitiy.Id);

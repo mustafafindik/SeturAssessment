@@ -11,8 +11,8 @@ namespace SeturAssessment.ContactService.Business.Abstract
     {
         IList<ContactLocation> GetAll();
         ContactLocation Get(Guid contactId);
-        void Add(ContactLocationDto location);
-        void Update(int id, ContactLocationDto location);
+        void Add(ContactLocationAddDto contactLocationAddDto);
+        void Update(ContactLocationDto contactLocationDto);
         void Delete(ContactLocation contactLocation);
     }
 }

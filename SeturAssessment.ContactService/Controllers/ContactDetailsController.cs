@@ -17,15 +17,41 @@ namespace SeturAssessment.ContactService.Controllers
     {
         private readonly IEmailManager _emailManager;
         private readonly IPhoneNumberManager _phoneNumberManager;
+        private readonly ILocationManager _locationManager;
         private readonly IMapper _mapper;
 
 
-        public ContactDetailsController(IEmailManager emailManager, IPhoneNumberManager phoneNumberManager, IMapper mapper)
+        public ContactDetailsController(IEmailManager emailManager, IPhoneNumberManager phoneNumberManager, IMapper mapper, ILocationManager locationManager)
         {
             _emailManager = emailManager;
             _phoneNumberManager = phoneNumberManager;
             _mapper = mapper;
+            _locationManager = locationManager;
         }
+
+        [HttpPost("AddLocation")]
+        public IActionResult AddLocation([FromBody]  ContactLocationAddDto contactLocationAddDto )
+        {
+            _locationManager.Add(contactLocationAddDto);
+            return Ok();
+        }
+
+        [HttpPost("UpdateLocation")]
+        public IActionResult UpdateLocation([FromBody] ContactLocationDto contactLocationDto)
+        {
+            _locationManager.Update(contactLocationDto);
+            return Ok();
+        }
+
+        [HttpPost("DeleteLocation")]
+        public IActionResult DeleteLocation([FromBody] ContactLocationDto contactLocationDto)
+        {
+
+            var contactLocation = _mapper.Map<ContactLocation>(contactLocationDto);
+            _locationManager.Delete(contactLocation);
+            return Ok();
+        }
+
 
 
         [HttpPost("AddEmail")]
@@ -74,5 +100,8 @@ namespace SeturAssessment.ContactService.Controllers
             _phoneNumberManager.Delete(phoneNumber.Id);
             return Ok();
         }
+
+
+
     }
 }
