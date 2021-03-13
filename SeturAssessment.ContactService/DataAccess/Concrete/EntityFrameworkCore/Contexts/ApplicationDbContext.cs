@@ -20,7 +20,7 @@ namespace SeturAssessment.ContactService.DataAccess.Concrete.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ContactLocation>().HasKey(p => new { p.LocationId,p.ContactId});
+            modelBuilder.Entity<ContactLocation>().HasKey(p => p.Id);
             modelBuilder.Entity<ContactLocation>().HasOne(p => p.Location).WithMany(c => c.ContactLocations).HasForeignKey(p => p.LocationId);
             modelBuilder.Entity<ContactLocation>().HasOne(p => p.Contact).WithMany(c => c.ContactLocations).HasForeignKey(p => p.ContactId);
 
@@ -30,7 +30,7 @@ namespace SeturAssessment.ContactService.DataAccess.Concrete.EntityFrameworkCore
             modelBuilder.Entity<Email>().HasData(new Email { ContactId = firstContactId , Id = 1, MailAddress = "kullanıcı1@kullanıcı.com"});
             modelBuilder.Entity<Phone>().HasData(new Phone { ContactId = firstContactId, Id = 1, PhoneNumber = "054300000000" });
             modelBuilder.Entity<Location>().HasData(new Location { Id = 1, LocationName = "İstanbul" });
-            modelBuilder.Entity<ContactLocation>().HasData(new ContactLocation { ContactId = firstContactId, LocationId = 1 });
+            modelBuilder.Entity<ContactLocation>().HasData(new ContactLocation { Id = 1, ContactId = firstContactId, LocationId = 1 });
 
 
 

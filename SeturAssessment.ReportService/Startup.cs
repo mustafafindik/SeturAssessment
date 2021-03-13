@@ -61,6 +61,9 @@ namespace SeturAssessment.ReportService
             {
                 endpoints.MapControllers();
             });
+
+            var context = app.ApplicationServices.GetRequiredService<ApplicationDbContext>();
+            context.Database.Migrate();
         }
     }
 }

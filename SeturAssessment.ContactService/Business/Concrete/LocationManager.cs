@@ -48,6 +48,24 @@ namespace SeturAssessment.ContactService.Business.Concrete
 
         }
 
+        public void Update(int id, ContactLocationDto location)
+        {
+            var entitiy = _contactLocationRepository.Get(q => q.Id == id);
+            var locationHaveBefore = LocationNameExist(location.LocationName, out var locationId);
+            if (locationHaveBefore)
+            {
+                entitiy.LocationId = locationId;
+                _contactLocationRepository.Update(entitiy,entitiy.Id);
+            }
+            else
+            {
+                //Transaction 
+                var newLocation = new Location() { LocationName = location.LocationName };
+                _locationRepository.Add(newLocation);
+                entitiy.LocationId = newLocation.Id;
+                _contactLocationRepository.Update(entitiy, entitiy.Id);
+            }
+        }
 
 
         public void Delete(ContactLocation contactLocation)

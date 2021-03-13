@@ -5,6 +5,7 @@ namespace SeturAssessment.ContactService.Entities.Concrete
 {
     public class ContactLocation:IEntity
     {
+        public int Id { get; set; }
         public Guid ContactId { get; set; }
         public Contact Contact { get; set; }
 
