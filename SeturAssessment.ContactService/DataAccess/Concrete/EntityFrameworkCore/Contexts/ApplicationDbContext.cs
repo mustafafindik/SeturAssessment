@@ -32,7 +32,7 @@ namespace SeturAssessment.ContactService.DataAccess.Concrete.EntityFrameworkCore
             modelBuilder.Entity<Location>().HasData(new Location { Id = 1, LocationName = "İstanbul" });
             modelBuilder.Entity<ContactLocation>().HasData(new ContactLocation { Id = 1, ContactId = firstContactId, LocationId = 1 });
 
-
+           
 
         }
     }

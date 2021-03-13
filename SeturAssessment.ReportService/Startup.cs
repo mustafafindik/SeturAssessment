@@ -30,11 +30,13 @@ namespace SeturAssessment.ReportService
         {
 
             services.AddControllers();
+
             services.AddDbContext<ApplicationDbContext>(options =>
 
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SeturAssessment.ReportService")).EnableSensitiveDataLogging(), ServiceLifetime.Scoped
 
             );
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SeturAssessment.ReportService", Version = "v1" });
@@ -42,7 +44,7 @@ namespace SeturAssessment.ReportService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public  void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -61,8 +63,7 @@ namespace SeturAssessment.ReportService
             {
                 endpoints.MapControllers();
             });
-
-            var context = app.ApplicationServices.GetRequiredService<ApplicationDbContext>();
+            
             context.Database.Migrate();
         }
     }

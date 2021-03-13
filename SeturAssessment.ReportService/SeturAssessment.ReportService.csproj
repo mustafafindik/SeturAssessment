@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\" />
     <Folder Include="DataAccess\Abstract\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
 
 </Project>
