@@ -22,6 +22,9 @@ namespace SeturAssessment.ContactService.Utilities.Mapping.AutoMapper
                 ;
 
             CreateMap<Contact, ContactDto>().ReverseMap();
+            CreateMap<Email, EmailDto>().ReverseMap();
+            CreateMap<Phone, PhoneDto>().ReverseMap();
+
         }
     }
 }
