@@ -16,8 +16,6 @@
 
   <ItemGroup>
     <Folder Include="DataAccess\Abstract\" />
-    <Folder Include="DataAccess\Concrete\EntityFrameworkCore\Builders\" />
-    <Folder Include="DataAccess\Concrete\EntityFrameworkCore\Seeds\" />
   </ItemGroup>
 
 </Project>
