@@ -62,19 +62,17 @@ namespace SeturAssessment.ContactService.DataAccess.Concrete
 
         }
 
-        public void Delete(T entity, int id)
+        public void Delete(T entity)
         {
-            var existingEntity = _context.Set<T>().Find(id);
-            _context.Remove(existingEntity);
+            _context.Remove(entity);
             _context.SaveChanges();
 
         }
 
-        public void Update(T entity, int id)
+        public void Update(T entity)
         {
-            var existingEntity = _context.Set<T>().Find(id);
 
-            _context.Entry(existingEntity).CurrentValues.SetValues(entity);
+            _context.Update(entity);
             _context.SaveChanges();
 
 

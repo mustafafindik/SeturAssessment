@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Utilities\DependencyResolvers\Autofac\" />
     <Folder Include="Utilities\Mapping\AutoMapper\" />
   </ItemGroup>
 
