@@ -11,7 +11,7 @@ namespace SeturAssessment.ReportService.DataAccess.Concrete.EntityFrameworkCore.
         }
 
         public DbSet<ReportStatus> ReportStatuses { get; set; }
-        public DbSet<Reports> Reports { get; set; }
+        public DbSet<Report> Reports { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

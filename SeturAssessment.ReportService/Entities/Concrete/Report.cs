@@ -3,7 +3,7 @@ using SeturAssessment.ReportService.Entities.Abstract;
 
 namespace SeturAssessment.ReportService.Entities.Concrete
 {
-    public class Reports : IEntity
+    public class Report : IEntity
     {
         public Guid Id { get; set; }
         public DateTime? RequestDate { get; set; }
