@@ -35,6 +35,11 @@ namespace SeturAssessment.ReportService.DataAccess.Concrete
             return report;
         }
 
-         
+        public async Task UpdateAsync(Report report)
+        {
+            var existingEntity = await _context.Reports.FindAsync(report.Id);
+             _context.Entry(existingEntity).CurrentValues.SetValues(report);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SeturAssessment.ReportService.DataAccess.Concrete.EntityFrameworkCore.Contexts;
+using SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq;
 
 namespace SeturAssessment.ReportService
 {
@@ -41,6 +42,8 @@ namespace SeturAssessment.ReportService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SeturAssessment.ReportService", Version = "v1" });
             });
+
+            services.AddHostedService<MqConsumerHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

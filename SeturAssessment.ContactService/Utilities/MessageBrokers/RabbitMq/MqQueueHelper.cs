@@ -7,7 +7,7 @@ namespace SeturAssessment.ContactService.Utilities.MessageBrokers.RabbitMq
 {
     public class MqQueueHelper : IMessageBrokerHelper
     {
-        public IConfiguration Configuration;
+        public readonly IConfiguration Configuration;
         private readonly MessageBrokerOptions _brokerOptions;
         public MqQueueHelper(IConfiguration configuration)
         {

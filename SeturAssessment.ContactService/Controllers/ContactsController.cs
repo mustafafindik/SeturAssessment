@@ -18,7 +18,7 @@ namespace SeturAssessment.ContactService.Controllers
     {
         private readonly IContactManager _contactManager;
         private readonly IMapper _mapper;
-        private IMessageBrokerHelper _messageBrokerHelper;
+        private readonly IMessageBrokerHelper _messageBrokerHelper;
 
         public ContactsController(IContactManager contactManager, IMapper mapper, IMessageBrokerHelper messageBrokerHelper)
         {

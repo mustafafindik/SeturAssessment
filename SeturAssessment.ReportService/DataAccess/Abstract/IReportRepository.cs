@@ -11,6 +11,6 @@ namespace SeturAssessment.ReportService.DataAccess.Abstract
         IQueryable<Report> GetAll();
         Report Get(Guid id);
         Task<Report> AddAsync(Report report);
-
+        Task UpdateAsync(Report report);
     }
 }

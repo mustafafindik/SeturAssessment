@@ -1,23 +1,35 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using SeturAssessment.ReportService.DataAccess.Abstract;
 
 namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
 {
-    public class MqConsumerHelper : IMessageConsumer
+    public class MqConsumerHelper : BackgroundService
     {
-        private readonly IConfiguration _configuration;
+        private IModel _channel;
+        private IConnection _connection;
+        private string _queueName;
+
         private readonly MessageBrokerOptions _brokerOptions;
-        public MqConsumerHelper(IConfiguration configuration)
+        private readonly IReportRepository _reportRepository;
+
+        public MqConsumerHelper(IConfiguration configuration, IReportRepository reportRepository)
         {
-            _configuration = configuration;
-            _brokerOptions = _configuration.GetSection("MessageBrokerOptions").Get<MessageBrokerOptions>();
+            _reportRepository = reportRepository;
+            _brokerOptions = configuration.GetSection("MessageBrokerOptions").Get<MessageBrokerOptions>();
+            InitializeRabbitMqListener();
         }
-        public void GetQueue()
+
+        private void InitializeRabbitMqListener()
         {
-            var QueueName = _brokerOptions.QueueName;
+              _queueName = _brokerOptions.QueueName;
 
             var factory = new ConnectionFactory()
             {
@@ -25,32 +37,51 @@ namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
                 UserName = _brokerOptions.UserName,
                 Password = _brokerOptions.Password
             };
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+
+            _connection = factory.CreateConnection();
+            _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+            _channel = _connection.CreateModel();
+            _channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
+        }
+
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            stoppingToken.ThrowIfCancellationRequested();
+
+            var consumer = new EventingBasicConsumer(_channel);
+            consumer.Received += (model, mq) =>
             {
-                channel.QueueDeclare(queue: QueueName,
-                                                         durable: false,
-                                                         exclusive: false,
-                                                         autoDelete: false,
-                                                         arguments: null);
 
-                var consumer = new EventingBasicConsumer(channel);
+                var body = mq.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+                HandleMessage(message);
 
-                consumer.Received += (model, mq) =>
-                {
-                    var body = mq.Body.ToArray();
-                    var message = Encoding.UTF8.GetString(body);
+            };
 
-                    Console.WriteLine($"Message: {message}");
-                };
+            _channel.BasicConsume(queue: _queueName, autoAck: true, consumer: consumer);
 
-                channel.BasicConsume(queue: QueueName,
-                                                      autoAck: true,
-                                                      consumer: consumer);
-                Console.ReadKey();
-
-            }
+            return Task.CompletedTask;
 
         }
+
+
+        private void HandleMessage(string message)
+        {
+            var repo = _reportRepository.GetAll().Where(q => q.ReportBody == null).FirstOrDefault();
+            repo.ReportBody = message;
+            _reportRepository.UpdateAsync(repo);
+        }
+
+        public virtual void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)
+        {
+        }
+
+        public override void Dispose()
+        {
+            _channel.Close();
+            _connection.Close();
+            base.Dispose();
+        }
+
     }
 }

@@ -19,7 +19,6 @@ namespace SeturAssessment.ReportService.Utilities.DependencyResolvers.Autofac
             builder.RegisterType<ReportRepository>().As<IReportRepository>().SingleInstance();
 
 
-            builder.RegisterType<MqConsumerHelper>().As<IMessageConsumer>().SingleInstance();
 
         }
     }
