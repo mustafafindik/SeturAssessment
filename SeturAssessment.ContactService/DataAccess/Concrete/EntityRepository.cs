@@ -9,7 +9,7 @@ using SeturAssessment.ContactService.Entities.Abstract;
 
 namespace SeturAssessment.ContactService.DataAccess.Concrete
 {
-    public class EntityRepository<T, TContext> : IEntityRepository<T> where T : class, IEntity, new() where TContext : DbContext // T:Sınıf,IentityImplementEden,Newlenebilir | TContext :DbContext inherit eden
+    public class EntityRepository<T,S, TContext> : IEntityRepository<T,S> where T : class, IEntity, new() where TContext : DbContext // T:Sınıf,IentityImplementEden,Newlenebilir | TContext :DbContext inherit eden
     {
         private readonly TContext _context;
         public EntityRepository(TContext context)
@@ -62,17 +62,19 @@ namespace SeturAssessment.ContactService.DataAccess.Concrete
 
         }
 
-        public void Delete(T entity)
+        public void Delete(T entity, S id)
         {
-            _context.Remove(entity);
+            var existingEntity = _context.Set<T>().Find(id);
+            _context.Remove(existingEntity);
             _context.SaveChanges();
 
         }
 
-        public void Update(T entity)
+        public void Update(T entity,S id)
         {
 
-            _context.Update(entity);
+            var existingEntity = _context.Set<T>().Find(id);
+            _context.Entry(existingEntity).CurrentValues.SetValues(entity);
             _context.SaveChanges();
 
 

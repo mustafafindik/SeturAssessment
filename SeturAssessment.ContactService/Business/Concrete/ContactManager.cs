@@ -35,13 +35,13 @@ namespace SeturAssessment.ContactService.Business.Concrete
 
         public void Update(Contact contact)
         {
-            _contactRepository.Update(contact);
+            _contactRepository.Update(contact,contact.Id);
         }
 
         public void Delete(Guid id)
         {
             var entity = _contactRepository.Get(q => q.Id == id);
-            _contactRepository.Delete(entity);
+            _contactRepository.Delete(entity,entity.Id);
         }
     }
 }

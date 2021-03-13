@@ -6,7 +6,7 @@ using SeturAssessment.ContactService.Entities.Concrete;
 
 namespace SeturAssessment.ContactService.DataAccess.Abstract
 {
-    public interface IContactLocationRepository : IEntityRepository<ContactLocation>
+    public interface IContactLocationRepository : IEntityRepository<ContactLocation,int>
     {
     }
 }

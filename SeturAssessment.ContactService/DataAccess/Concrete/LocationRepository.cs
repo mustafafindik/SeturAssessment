@@ -8,7 +8,7 @@ using SeturAssessment.ContactService.Entities.Concrete;
 
 namespace SeturAssessment.ContactService.DataAccess.Concrete
 {
-    public class LocationRepository : EntityRepository<Location, ApplicationDbContext>, ILocationRepository
+    public class LocationRepository : EntityRepository<Location,int, ApplicationDbContext>, ILocationRepository
     {
         public LocationRepository(ApplicationDbContext context) : base(context)
         {

@@ -6,7 +6,7 @@ using SeturAssessment.ContactService.Entities.Concrete;
 
 namespace SeturAssessment.ContactService.DataAccess.Abstract
 {
-    public interface IEmailRepository : IEntityRepository<Email>
+    public interface IEmailRepository : IEntityRepository<Email,int>
     {
     }
 }

@@ -8,7 +8,7 @@ using SeturAssessment.ContactService.Entities.Concrete;
 
 namespace SeturAssessment.ContactService.DataAccess.Concrete
 {
-    public class EmailRepository : EntityRepository<Email, ApplicationDbContext>, IEmailRepository
+    public class EmailRepository : EntityRepository<Email,int, ApplicationDbContext>, IEmailRepository
     {
         public EmailRepository(ApplicationDbContext context) : base(context)
         {

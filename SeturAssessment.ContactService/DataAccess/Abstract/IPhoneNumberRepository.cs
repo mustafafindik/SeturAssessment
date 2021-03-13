@@ -6,7 +6,7 @@ using SeturAssessment.ContactService.Entities.Concrete;
 
 namespace SeturAssessment.ContactService.DataAccess.Abstract
 {
-    public interface IPhoneNumberRepository : IEntityRepository<Phone>
+    public interface IPhoneNumberRepository : IEntityRepository<Phone,int>
     {
     }
 }

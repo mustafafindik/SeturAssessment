@@ -8,7 +8,7 @@ using SeturAssessment.ContactService.Entities.Concrete;
 
 namespace SeturAssessment.ContactService.DataAccess.Concrete
 {
-    public class PhoneNumberRepository: EntityRepository<Phone, ApplicationDbContext>, IPhoneNumberRepository
+    public class PhoneNumberRepository: EntityRepository<Phone,int, ApplicationDbContext>, IPhoneNumberRepository
     {
         public PhoneNumberRepository(ApplicationDbContext context) : base(context)
         {
