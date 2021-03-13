@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using SeturAssessment.ContactService.Entities.Concrete;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -22,6 +23,17 @@ namespace SeturAssessment.ContactService.DataAccess.Concrete.EntityFrameworkCore
             modelBuilder.Entity<ContactLocation>().HasKey(p => new { p.LocationId,p.ContactId});
             modelBuilder.Entity<ContactLocation>().HasOne(p => p.Location).WithMany(c => c.ContactLocations).HasForeignKey(p => p.LocationId);
             modelBuilder.Entity<ContactLocation>().HasOne(p => p.Contact).WithMany(c => c.ContactLocations).HasForeignKey(p => p.ContactId);
+
+            var firstContactId = Guid.NewGuid();
+
+            modelBuilder.Entity<Contact>().HasData(new Contact { Id = firstContactId, FirstName = "Kullanıcı 1" , LastName = "Kullanıcı 1 LastName" , Firm = "Test Firma" });
+            modelBuilder.Entity<Email>().HasData(new Email { ContactId = firstContactId , Id = 1, MailAddress = "kullanıcı1@kullanıcı.com"});
+            modelBuilder.Entity<Phone>().HasData(new Phone { ContactId = firstContactId, Id = 1, PhoneNumber = "054300000000" });
+            modelBuilder.Entity<Location>().HasData(new Location { Id = 1, LocationName = "İstanbul" });
+            modelBuilder.Entity<ContactLocation>().HasData(new ContactLocation { ContactId = firstContactId, LocationId = 1 });
+
+
+
         }
     }
     
