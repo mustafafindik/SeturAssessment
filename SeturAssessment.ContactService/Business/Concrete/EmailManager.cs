@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using SeturAssessment.ContactService.Business.Abstract;
 using SeturAssessment.ContactService.DataAccess.Abstract;
 using SeturAssessment.ContactService.Entities.Concrete;
+using SeturAssessment.ContactService.Utilities.Results;
 
 namespace SeturAssessment.ContactService.Business.Concrete
 {
@@ -18,31 +19,39 @@ namespace SeturAssessment.ContactService.Business.Concrete
         }
 
 
-        public IList<Email> GetAll()
+        public IDataResult<IList<Email>> GetAll()
         {
-            return _emailRepository.GetAll().ToList();
+            var query= _emailRepository.GetAll().ToList();
+            return new SuccessDataResult<List<Email>>(query, "Mail Adresleri Başarıyla Alındı");
+
         }
 
-        public Email Get(int id)
+        public IDataResult<Email> Get(int id)
         {
-            return _emailRepository.Get(q=>q.Id==id);
+            var query = _emailRepository.Get(q => q.Id == id);
+            return new SuccessDataResult<Email>(query, "Mail Adresi Başarıyla Alındı");
         }
 
-        public void Add(Email email)
+        public IResult Add(Email email)
         {
             _emailRepository.Add(email);
+            return new SuccessResult("Mail Başarıyla Kaydedildi.");
+
         }
 
-        public void Update(Email email)
+        public IResult Update(Email email)
         {
             _emailRepository.Update(email,email.Id);
+            return new SuccessResult("Mail Başarıyla Güncellendi.");
+
         }
 
-        public void Delete(int id)
+        public IResult Delete(int id)
         {
             var entity = _emailRepository.Get(q => q.Id == id);
+            _emailRepository.Delete(entity,entity.Id);
+            return new SuccessResult("Mail Başarıyla Silindi.");
 
-            _emailRepository.Update(entity,entity.Id);
         }
     }
 }

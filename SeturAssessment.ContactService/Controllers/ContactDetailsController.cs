@@ -32,15 +32,23 @@ namespace SeturAssessment.ContactService.Controllers
         [HttpPost("AddLocation")]
         public IActionResult AddLocation([FromBody]  ContactLocationAddDto contactLocationAddDto )
         {
-            _locationManager.Add(contactLocationAddDto);
-            return Ok();
+            var result= _locationManager.Add(contactLocationAddDto);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
         [HttpPost("UpdateLocation")]
         public IActionResult UpdateLocation([FromBody] ContactLocationDto contactLocationDto)
         {
-            _locationManager.Update(contactLocationDto);
-            return Ok();
+            var result = _locationManager.Update(contactLocationDto);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
         [HttpPost("DeleteLocation")]
@@ -48,8 +56,12 @@ namespace SeturAssessment.ContactService.Controllers
         {
 
             var contactLocation = _mapper.Map<ContactLocation>(contactLocationDto);
-            _locationManager.Delete(contactLocation);
-            return Ok();
+            var result = _locationManager.Delete(contactLocation);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
 
@@ -58,47 +70,72 @@ namespace SeturAssessment.ContactService.Controllers
         public IActionResult AddEmail([FromBody] EmailDto emailDto)
         {
             var email = _mapper.Map<Email>(emailDto);
-            _emailManager.Add(email);
-            return Ok();
+            var result = _emailManager.Add(email);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
         [HttpPost("UpdateEmail")]
         public IActionResult UpdateEmail([FromBody] EmailDto emailDto)
         {
             var email = _mapper.Map<Email>(emailDto);
-            return Ok();
+            var result = _emailManager.Update(email);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
         [HttpPost("DeleteEmail")]
         public IActionResult DeleteEmail([FromBody] EmailDto emailDto)
         {
             var email = _mapper.Map<Email>(emailDto);
-            _emailManager.Delete(email.Id);
-            return Ok();
+            var result =  _emailManager.Delete(email.Id);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
         [HttpPost("AddPhoneNumber")]
         public IActionResult AddPhoneNumber([FromBody] PhoneDto phoneNumberDto)
         {
             var phoneNumber = _mapper.Map<Phone>(phoneNumberDto);
-            _phoneNumberManager.Add(phoneNumber);
-            return Ok();
+            var result =  _phoneNumberManager.Add(phoneNumber);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
         [HttpPost("UpdatePhoneNumber")]
         public IActionResult UpdatePhoneNumber([FromBody] PhoneDto phoneNumberDto)
         {
             var phoneNumber = _mapper.Map<Phone>(phoneNumberDto);
-            _phoneNumberManager.Update(phoneNumber);
-            return Ok();
+            var result =  _phoneNumberManager.Update(phoneNumber);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
         [HttpPost("DeletePhoneNumber")]
         public IActionResult DeletePhoneNumber([FromBody] PhoneDto phoneNumberDto)
         {
             var phoneNumber = _mapper.Map<Phone>(phoneNumberDto);
-            _phoneNumberManager.Delete(phoneNumber.Id);
-            return Ok();
+            var result =  _phoneNumberManager.Delete(phoneNumber.Id);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
 

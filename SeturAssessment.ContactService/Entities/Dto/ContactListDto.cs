@@ -13,8 +13,8 @@ namespace SeturAssessment.ContactService.Entities.Dto
         public string LastName { get; set; }
         public string Firm { get; set; }
 
-        public  string[] Emails { get; set; }
-        public string[] PhoneNumbers { get; set; }
-        public string[] Locations { get; set; }
+        public EmailListDto[] Emails { get; set; }
+        public PhoneListDto[] PhoneNumbers { get; set; }
+        public ContactLocationDto[] Locations { get; set; }
     }
 }

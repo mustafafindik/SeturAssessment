@@ -27,17 +27,27 @@ namespace SeturAssessment.ContactService.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+
             var result = _contactManager.GetAll();
-            var resultDto = _mapper.Map<List<ContactListDto>>(result);
-            return Ok(resultDto);
+            if (result.IsSuccess)
+            {
+                var resultDto = _mapper.Map<List<ContactListDto>>(result.Data);
+                return Ok(resultDto);
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(Guid id)
         {
             var result = _contactManager.Get(id);
-            var resultDto = _mapper.Map<ContactListDto>(result);
-            return Ok(resultDto);
+            if (result.IsSuccess)
+            {
+                var resultDto = _mapper.Map<ContactListDto>(result.Data);
+                return Ok(resultDto);
+            }
+            return BadRequest(new { Message = result.Message });
+
         }
 
         [HttpPost("add")]
@@ -46,9 +56,14 @@ namespace SeturAssessment.ContactService.Controllers
         public IActionResult Add(ContactDto contactDto)
         {
             var contact = _mapper.Map<Contact>(contactDto);
-            _contactManager.Add(contact);
-             return Ok();
-           
+            var result =  _contactManager.Add(contact);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
+
+
 
         }
 
@@ -59,8 +74,12 @@ namespace SeturAssessment.ContactService.Controllers
         {
 
             var contact = _mapper.Map<Contact>(contactDto);
-            _contactManager.Update(contact);
-            return Ok();
+            var result = _contactManager.Update(contact);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
 
@@ -69,8 +88,12 @@ namespace SeturAssessment.ContactService.Controllers
         public IActionResult Delete(ContactDto contactDto)
         {
             var contact = _mapper.Map<Contact>(contactDto);
-            _contactManager.Delete(contact.Id);
-            return Ok();
-        }
+            var result =_contactManager.Delete(contact.Id);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
+         }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using SeturAssessment.ContactService.Business.Abstract;
 using SeturAssessment.ContactService.DataAccess.Abstract;
 using SeturAssessment.ContactService.Entities.Concrete;
+using SeturAssessment.ContactService.Utilities.Results;
 
 namespace SeturAssessment.ContactService.Business.Concrete
 {
@@ -17,30 +18,40 @@ namespace SeturAssessment.ContactService.Business.Concrete
             _phoneNumberRepository = phoneNumberRepository;
         }
 
-        public IList<Phone> GetAll()
+        public IDataResult<IList<Phone>> GetAll()
         {
-            return _phoneNumberRepository.GetAll().ToList();
+            var query =  _phoneNumberRepository.GetAll().ToList();
+            return new SuccessDataResult<List<Phone>>(query, "Telefon Numaraları Adresleri Başarıyla Alındı");
+
         }
 
-        public Phone Get(int id)
+        public IDataResult<Phone> Get(int id)
         {
-            return _phoneNumberRepository.Get(q => q.Id == id);
+            var query= _phoneNumberRepository.Get(q => q.Id == id);
+            return new SuccessDataResult<Phone>(query, "Telefon Numarası Adresleri Başarıyla Alındı");
+
         }
 
-        public void Add(Phone phone)
+        public IResult Add(Phone phone)
         {
             _phoneNumberRepository.Add(phone);
+            return new SuccessResult("Telefon Numarası Başarıyla Kaydedildi.");
+
         }
 
-        public void Update(Phone phone)
+        public IResult Update(Phone phone)
         {
             _phoneNumberRepository.Update(phone, phone.Id);
+            return new SuccessResult("Telefon Numarası Başarıyla Güncellendi.");
+
         }
 
-        public void Delete(int id)
+        public IResult Delete(int id)
         {
             var entity = _phoneNumberRepository.Get(q => q.Id == id);
-            _phoneNumberRepository.Update(entity, entity.Id);
+            _phoneNumberRepository.Delete(entity, entity.Id);
+            return new SuccessResult("Telefon Numarası Başarıyla Silindi.");
+
         }
     }
 }

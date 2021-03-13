@@ -6,6 +6,7 @@ using SeturAssessment.ContactService.Business.Abstract;
 using SeturAssessment.ContactService.DataAccess.Abstract;
 using SeturAssessment.ContactService.Entities.Concrete;
 using SeturAssessment.ContactService.Entities.Dto;
+using SeturAssessment.ContactService.Utilities.Results;
 
 namespace SeturAssessment.ContactService.Business.Concrete
 {
@@ -20,18 +21,28 @@ namespace SeturAssessment.ContactService.Business.Concrete
             _contactLocationRepository = contactLocationRepository;
         }
 
-        public IList<ContactLocation> GetAll()
+        public IDataResult<IList<ContactLocation>> GetAll()
         {
-            return _contactLocationRepository.GetAll("Location").ToList();
+            var query = _contactLocationRepository.GetAll("Location").ToList();
+            return new SuccessDataResult<List<ContactLocation>>(query, "Lokasyonlar Adresleri Başarıyla Alındı");
+
         }
 
-        public ContactLocation Get(Guid contactId)
+        public IDataResult<ContactLocation> Get(Guid contactId)
         {
-            return _contactLocationRepository.Get(q=>q.ContactId==contactId, "Location");
+            var query =  _contactLocationRepository.Get(q=>q.ContactId==contactId, "Location");
+            return new SuccessDataResult<ContactLocation>(query, "Lokasyon Adresleri Başarıyla Alındı");
+
         }
 
-        public void Add(ContactLocationAddDto location)
+        public IResult Add(ContactLocationAddDto location)
         {
+            var result = LocationIsAddedContactBefore(location.LocationName, location.ContactId);
+            if (!result.IsSuccess)
+            {
+                return result;
+            }
+
             var locationHaveBefore = LocationNameExist(location.LocationName,out var locationId);
             if (locationHaveBefore)
             {
@@ -45,12 +56,18 @@ namespace SeturAssessment.ContactService.Business.Concrete
                 _contactLocationRepository.Add(new ContactLocation() { ContactId = location.ContactId, LocationId = newLocation.Id });
 
             }
+            return new SuccessResult("Lokasyon Başarıyla Kaydedildi.");
 
         }
 
-        public void Update(ContactLocationDto contactLocation)
+        public IResult Update(ContactLocationDto contactLocation)
         {
             var entitiy = _contactLocationRepository.Get(q => q.Id == contactLocation.ContactLocationId);
+            var result = LocationIsAddedContactBefore(contactLocation.LocationName, entitiy.ContactId);
+            if (!result.IsSuccess)
+            {
+                return result;
+            }
             var locationHaveBefore = LocationNameExist(contactLocation.LocationName, out var locationId);
             if (locationHaveBefore)
             {
@@ -65,12 +82,16 @@ namespace SeturAssessment.ContactService.Business.Concrete
                 entitiy.LocationId = newLocation.Id;
                 _contactLocationRepository.Update(entitiy, entitiy.Id);
             }
+            return new SuccessResult("Lokasyon Başarıyla Güncellendi.");
+
         }
 
 
-        public void Delete(ContactLocation contactLocation)
+        public IResult Delete(ContactLocation contactLocation)
         {
-            _contactLocationRepository.Delete(contactLocation,contactLocation.LocationId);
+            _contactLocationRepository.Delete(contactLocation,contactLocation.Id);
+            return new SuccessResult("Lokasyon Başarıyla Silindi.");
+
         }
 
 
@@ -87,6 +108,24 @@ namespace SeturAssessment.ContactService.Business.Concrete
 
            locationId = result.Id;
            return true;
+        }
+
+        private IResult LocationIsAddedContactBefore(string locationName,Guid contactId)
+        {
+
+            var location = _locationRepository.Get(q => q.LocationName.Trim().ToLower() == locationName.Trim().ToLower());
+            if (location !=  null)
+            {
+                var result = _contactLocationRepository.GetAll().Any(q => q.ContactId == contactId && q.LocationId == location.Id);
+                if (result)
+                {
+                    return new ErrorResult("Bu Lokasyon Bu Kullanıcıya daha önce Eklenmiş");
+                }
+
+                return new SuccessResult();
+            }
+
+            return new SuccessResult();
         }
     }
 }

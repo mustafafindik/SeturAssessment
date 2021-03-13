@@ -4,15 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using SeturAssessment.ContactService.Entities.Concrete;
 using SeturAssessment.ContactService.Entities.Dto;
+using SeturAssessment.ContactService.Utilities.Results;
 
 namespace SeturAssessment.ContactService.Business.Abstract
 {
     public interface ILocationManager
     {
-        IList<ContactLocation> GetAll();
-        ContactLocation Get(Guid contactId);
-        void Add(ContactLocationAddDto contactLocationAddDto);
-        void Update(ContactLocationDto contactLocationDto);
-        void Delete(ContactLocation contactLocation);
+        IDataResult<IList<ContactLocation>> GetAll();
+        IDataResult<ContactLocation> Get(Guid contactId);
+        IResult Add(ContactLocationAddDto contactLocationAddDto);
+        IResult Update(ContactLocationDto contactLocationDto);
+        IResult Delete(ContactLocation contactLocation);
     }
 }
