@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using SeturAssessment.ContactService.Business.Abstract;
+using SeturAssessment.ContactService.DataAccess.Abstract;
 using SeturAssessment.ContactService.Entities.Concrete;
 using SeturAssessment.ContactService.Entities.Dto;
 using SeturAssessment.ContactService.Utilities.MessageBrokers.RabbitMq;
@@ -18,19 +19,17 @@ namespace SeturAssessment.ContactService.Controllers
     {
         private readonly IContactManager _contactManager;
         private readonly IMapper _mapper;
-        private readonly IMessageBrokerHelper _messageBrokerHelper;
+     
 
-        public ContactsController(IContactManager contactManager, IMapper mapper, IMessageBrokerHelper messageBrokerHelper)
+        public ContactsController(IContactManager contactManager, IMapper mapper)
         {
             _contactManager = contactManager;
             _mapper = mapper;
-            _messageBrokerHelper = messageBrokerHelper;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            _messageBrokerHelper.QueueMessage("Deneme Mesajı");
 
             var result = _contactManager.GetAll();
             if (result.IsSuccess)

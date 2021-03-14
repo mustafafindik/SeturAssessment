@@ -5,9 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using SeturAssessment.ReportService.DataAccess.Abstract;
+using SeturAssessment.ReportService.Entities.Concrete;
 
 namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
 {
@@ -29,7 +31,7 @@ namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
 
         private void InitializeRabbitMqListener()
         {
-              _queueName = _brokerOptions.QueueName;
+            _queueName = _brokerOptions.QueueName;
 
             var factory = new ConnectionFactory()
             {
@@ -54,7 +56,10 @@ namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
 
                 var body = mq.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                HandleMessage(message);
+                var reportId = new Guid(message.Trim('"'));
+
+
+                HandleMessage(reportId).Wait(stoppingToken);
 
             };
 
@@ -65,11 +70,12 @@ namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
         }
 
 
-        private void HandleMessage(string message)
+        private async Task HandleMessage(Guid reportId)
         {
-            var repo = _reportRepository.GetAll().Where(q => q.ReportBody == null).FirstOrDefault();
-            repo.ReportBody = message;
-            _reportRepository.UpdateAsync(repo);
+            var repo = _reportRepository.Get(reportId);
+
+            repo.ReportBody = "test";
+            await _reportRepository.UpdateAsync(repo);
         }
 
         public virtual void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)
