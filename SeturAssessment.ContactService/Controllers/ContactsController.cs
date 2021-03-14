@@ -28,10 +28,10 @@ namespace SeturAssessment.ContactService.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
 
-            var result = _contactManager.GetAll();
+            var result =await _contactManager.GetAllAsync();
             if (result.IsSuccess)
             {
                 var resultDto = _mapper.Map<List<ContactListDto>>(result.Data);
@@ -41,9 +41,9 @@ namespace SeturAssessment.ContactService.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var result = _contactManager.Get(id);
+            var result = await _contactManager.GetAsync(id);
             if (result.IsSuccess)
             {
                 var resultDto = _mapper.Map<ContactListDto>(result.Data);
@@ -56,10 +56,10 @@ namespace SeturAssessment.ContactService.Controllers
         [HttpPost("add")]
 
 
-        public IActionResult Add(ContactDto contactDto)
+        public async Task<IActionResult> Add(ContactDto contactDto)
         {
             var contact = _mapper.Map<Contact>(contactDto);
-            var result =  _contactManager.Add(contact);
+            var result = await  _contactManager.AddAsync(contact);
             if (result.IsSuccess)
             {
                 return Ok(new { Message = result.Message });
@@ -73,11 +73,10 @@ namespace SeturAssessment.ContactService.Controllers
         [HttpPost("update")]
 
 
-        public IActionResult Update([FromBody] ContactDto contactDto)
+        public async Task<IActionResult> Update([FromBody] ContactDto contactDto)
         {
-
             var contact = _mapper.Map<Contact>(contactDto);
-            var result = _contactManager.Update(contact);
+            var result = await _contactManager.UpdateAsync(contact);
             if (result.IsSuccess)
             {
                 return Ok(new { Message = result.Message });
@@ -88,10 +87,10 @@ namespace SeturAssessment.ContactService.Controllers
 
         [HttpPost("delete")]
 
-        public IActionResult Delete(ContactDto contactDto)
+        public async Task<IActionResult> Delete(ContactDto contactDto)
         {
             var contact = _mapper.Map<Contact>(contactDto);
-            var result =_contactManager.Delete(contact.Id);
+            var result = await _contactManager.DeleteAsync(contact.Id);
             if (result.IsSuccess)
             {
                 return Ok(new { Message = result.Message });

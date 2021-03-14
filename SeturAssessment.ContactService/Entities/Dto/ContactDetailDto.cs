@@ -6,9 +6,11 @@ using SeturAssessment.ContactService.Entities.Abstract;
 
 namespace SeturAssessment.ContactService.Entities.Dto
 {
-    public class PhoneListDto:IDto
+    public class ContactDetailDto:IDto
     {
-        public int Id { get; set; }
-        public string PhoneNumber { get; set; }
+        public Guid Id { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string Location { get; set; }
     }
 }

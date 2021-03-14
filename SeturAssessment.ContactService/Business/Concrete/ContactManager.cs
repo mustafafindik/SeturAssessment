@@ -18,39 +18,36 @@ namespace SeturAssessment.ContactService.Business.Concrete
             _contactRepository = contactRepository;
         }
 
-        public IDataResult<IList<Contact>> GetAll()
-        {
-            var query = _contactRepository.GetAll(new string[] { "Emails", "PhoneNumbers", "ContactLocations.Location" }).ToList();
-            return new SuccessDataResult<List<Contact>>(query, "Kişiler Başarıyla Alındı");
 
+
+        public async Task<IDataResult<IList<Contact>>> GetAllAsync()
+        {
+            var query = await _contactRepository.GetAllAsync("ContactDetails");
+            return new SuccessDataResult<List<Contact>>(query.ToList(), "Kişiler Başarıyla Alındı");
         }
 
-        public IDataResult<Contact> Get(Guid id)
+        public async Task<IDataResult<Contact>> GetAsync(Guid id)
         {
-            var query = _contactRepository.GetAll(new string[] { "Emails", "PhoneNumbers", "ContactLocations.Location" }).FirstOrDefault(q=>q.Id==id);
+            var query = await _contactRepository.GetAsync(q => q.Id == id, "ContactDetails");
             return new SuccessDataResult<Contact>(query, "Kişi Başarıyla Alındı");
-
         }
 
-        public IResult Add(Contact contact)
+        public  async Task<IResult> AddAsync(Contact contact)
         {
-            _contactRepository.Add(contact);
+            await _contactRepository.AddAsync(contact);
             return new SuccessResult("Kişi Başarıyla Kaydedildi.");
         }
 
-        public IResult Update(Contact contact)
+        public async Task<IResult> UpdateAsync(Contact contact)
         {
-            _contactRepository.Update(contact,contact.Id);
+            await _contactRepository.UpdateAsync(contact, contact.Id);
             return new SuccessResult("Kişi Başarıyla Güncellendi.");
-
         }
 
-        public IResult Delete(Guid id)
+        public async Task<IResult> DeleteAsync(Guid id)
         {
-            var entity = _contactRepository.Get(q => q.Id == id);
-            _contactRepository.Delete(entity,entity.Id);
+            await _contactRepository.DeleteAsync(id);
             return new SuccessResult("Kişi Başarıyla Silindi.");
-
         }
     }
 }

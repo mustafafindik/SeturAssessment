@@ -11,8 +11,7 @@ namespace SeturAssessment.ContactService.Entities.Concrete
         public string LastName { get; set; }
         public string Firm { get; set; }
 
-        public virtual  ICollection<Email> Emails { get; set; }
-        public virtual ICollection<Phone> PhoneNumbers { get; set; }
-        public ICollection<ContactLocation> ContactLocations { get; set; }
+        public virtual  ICollection<ContactDetail> ContactDetails { get; set; }
+       
     }
 }

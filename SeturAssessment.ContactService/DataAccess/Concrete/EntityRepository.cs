@@ -17,67 +17,56 @@ namespace SeturAssessment.ContactService.DataAccess.Concrete
             _context = context;
         }
 
-        public T Get(Expression<Func<T, bool>> predicate)
+
+        public async  Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {
-
-            return _context.Set<T>().AsNoTracking().SingleOrDefault(predicate);
-
+            return await _context.Set<T>().AsNoTracking().SingleOrDefaultAsync(predicate);
         }
 
-        public T Get(Expression<Func<T, bool>> predicate, params string[] nav)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, params string[] nav)
         {
-            var query = _context.Set<T>().AsQueryable();
-            return nav.Aggregate(query, (current, n) => current.Include(n)).SingleOrDefault(predicate);
-
+            var query =  _context.Set<T>().AsQueryable();
+            return await nav.Aggregate(query, (current, n) => current.Include(n)).SingleOrDefaultAsync(predicate);
         }
 
-        public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate = null)
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null)
         {
-
-            return predicate == null ? _context.Set<T>().AsNoTracking() : _context.Set<T>().Where(predicate).AsNoTracking();
-
+            return await (predicate == null
+                ? _context.Set<T>().AsNoTracking().ToListAsync()
+                : _context.Set<T>().Where(predicate).AsNoTracking().ToListAsync());
         }
 
-        public IQueryable<T> GetAll(params string[] nav)
+        public async Task<IEnumerable<T>> GetAllAsync(params string[] nav)
         {
-
-            var query = _context.Set<T>().AsQueryable();
-            return nav.Aggregate(query, (current, n) => current.Include(n));
+             var query = _context.Set<T>().AsQueryable();
+            return await (nav.Aggregate(query, (current, n) => current.Include(n)).ToListAsync());
         }
 
-        public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate = null, params string[] nav)
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, params string[] nav)
         {
-
-            var query = predicate == null ? _context.Set<T>() : _context.Set<T>().Where(predicate);
-            return nav.Aggregate(query, (current, n) => current.Include(n)).AsNoTracking();
-
+            var query = (predicate == null ? _context.Set<T>() : _context.Set<T>().Where(predicate));
+            return await (nav.Aggregate(query, (current, n) => current.Include(n)).AsNoTracking().ToListAsync());
         }
 
-        public void Add(T entity)
+        public async Task AddAsync(T entity)
         {
-
             var addedEntityEntry = _context.Entry(entity);
             addedEntityEntry.State = EntityState.Added;
-            _context.SaveChanges();
-
+            await  _context.SaveChangesAsync();
         }
 
-        public void Delete(T entity, S id)
+        public async Task DeleteAsync(S id)
         {
-            var existingEntity = _context.Set<T>().Find(id);
+            var existingEntity = await _context.Set<T>().FindAsync(id); 
             _context.Remove(existingEntity);
-            _context.SaveChanges();
-
+            await  _context.SaveChangesAsync();
         }
 
-        public void Update(T entity,S id)
+        public async Task UpdateAsync(T entity, S id)
         {
-
-            var existingEntity = _context.Set<T>().Find(id);
+            var existingEntity =await _context.Set<T>().FindAsync(id);
             _context.Entry(existingEntity).CurrentValues.SetValues(entity);
-            _context.SaveChanges();
-
-
+            await _context.SaveChangesAsync();
         }
     }
 }

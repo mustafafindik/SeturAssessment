@@ -7,12 +7,10 @@ using SeturAssessment.ContactService.Utilities.Results;
 
 namespace SeturAssessment.ContactService.Business.Abstract
 {
-    public interface IEmailManager
+    public interface IContactDetailManager
     {
-        IDataResult<IList<Email>> GetAll();
-        IDataResult<Email> Get(int id);
-        IResult Add(Email email);
-        IResult Update(Email email);
-        IResult Delete(int id);
+        Task<IResult> AddAsync(ContactDetail contactDetail);
+        Task<IResult> UpdateAsync(ContactDetail contactDetail);
+        Task<IResult> DeleteAsync(Guid id);
     }
 }

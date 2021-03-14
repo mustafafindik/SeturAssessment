@@ -18,15 +18,10 @@ namespace SeturAssessment.ContactService.Utilities.DependencyResolvers.Autofac
             builder.RegisterType<ContactManager>().As<IContactManager>().SingleInstance();
             builder.RegisterType<ContactRepository>().As<IContactRepository>().SingleInstance();
 
-            builder.RegisterType<EmailManager>().As<IEmailManager>().SingleInstance();
-            builder.RegisterType<EmailRepository>().As<IEmailRepository>().SingleInstance();
+            builder.RegisterType<ContactDetailManager>().As<IContactDetailManager>().SingleInstance();
+            builder.RegisterType<ContactDetailRepository>().As<IContactDetailRepository>().SingleInstance();
 
-            builder.RegisterType<PhoneNumberManager>().As<IPhoneNumberManager>().SingleInstance();
-            builder.RegisterType<PhoneNumberRepository>().As<IPhoneNumberRepository>().SingleInstance();
-
-            builder.RegisterType<LocationManager>().As<ILocationManager>().SingleInstance();
-            builder.RegisterType<LocationRepository>().As<ILocationRepository>().SingleInstance();
-            builder.RegisterType<ContactLocationRepository>().As<IContactLocationRepository>().SingleInstance();
+    
 
             builder.RegisterType<ReportRequestManager>().As<IReportRequestManager>().SingleInstance();
             builder.RegisterType<ReportRequestRepository>().As<IReportRequestRepository>().SingleInstance();

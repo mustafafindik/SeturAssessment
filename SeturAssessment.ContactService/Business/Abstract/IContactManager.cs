@@ -9,10 +9,10 @@ namespace SeturAssessment.ContactService.Business.Abstract
 {
     public interface IContactManager
     {
-        IDataResult<IList<Contact>> GetAll();
-        IDataResult<Contact> Get(Guid id);
-        IResult Add(Contact contact);
-        IResult Update(Contact contact);
-        IResult Delete(Guid id);
+        Task<IDataResult<IList<Contact>>> GetAllAsync();
+        Task<IDataResult<Contact>> GetAsync(Guid id);
+        Task<IResult> AddAsync(Contact contact);
+        Task<IResult> UpdateAsync(Contact contact);
+        Task<IResult> DeleteAsync(Guid id);
     }
 }

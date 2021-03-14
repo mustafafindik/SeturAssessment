@@ -8,9 +8,9 @@ using SeturAssessment.ContactService.Entities.Concrete;
 
 namespace SeturAssessment.ContactService.DataAccess.Concrete
 {
-    public class LocationRepository : EntityRepository<Location,int, ApplicationDbContext>, ILocationRepository
+    public class ContactDetailRepository : EntityRepository<ContactDetail, Guid, ApplicationDbContext>, IContactDetailRepository
     {
-        public LocationRepository(ApplicationDbContext context) : base(context)
+        public ContactDetailRepository(ApplicationDbContext context) : base(context)
         {
         }
     }
