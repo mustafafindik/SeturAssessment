@@ -33,11 +33,11 @@ namespace SeturAssessment.ContactService.Controllers
         [HttpPost("RequestReport")]
         public async Task<IActionResult> RequestReport()
         {
-            var result = await _contactManager.GetAllAsync();
+            var result = await _contactManager.GetContactDetailsAsync();
             if (result.IsSuccess)
             {
                 ReportRequestModel reportRequestModel = new ReportRequestModel();
-                reportRequestModel.Contacts = result.Data.ToList();;
+                reportRequestModel.ContactDetails = result.Data.ToList();;
                 _messageBrokerHelper.QueueMessage(reportRequestModel);
                 return Ok("Rapor Talebi Oluşturuldu");
             }
@@ -47,13 +47,13 @@ namespace SeturAssessment.ContactService.Controllers
         }
 
         [HttpPost("RequestReport/{location}")]
-        public async Task<IActionResult> RequestReport(string location)
+        public async Task<IActionResult> RequestReportWithLocation(string location)
         {
-            var result = await _contactManager.GetAllAsync();
+            var result = await _contactManager.GetContactDetailsAsync();
             if (result.IsSuccess)
             {
                 ReportRequestModelWithLocation reportRequestModel = new ReportRequestModelWithLocation();
-                reportRequestModel.Contacts = result.Data.ToList();
+                reportRequestModel.ContactDetails = result.Data.ToList();
                 reportRequestModel.location = location;
                 _messageBrokerHelper.QueueMessage(reportRequestModel);
                 return Ok($"{location} için Rapor Talebi Oluşturuldu");

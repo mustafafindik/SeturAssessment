@@ -6,9 +6,11 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using SeturAssessment.ContactService.Entities.ViewModels;
 using SeturAssessment.ReportService.Business.Abstract;
 using SeturAssessment.ReportService.DataAccess.Abstract;
 using SeturAssessment.ReportService.Entities.Concrete;
+using SeturAssessment.ReportService.Entities.Dto;
 using SeturAssessment.ReportService.Utilities.Results;
 
 namespace SeturAssessment.ReportService.Business.Concrete
@@ -25,14 +27,14 @@ namespace SeturAssessment.ReportService.Business.Concrete
 
         public IDataResult<IList<Report>> GetAll()
         {
-            var query= _reportRepository.GetAll().ToList();
+            var query = _reportRepository.GetAll().ToList();
             return new SuccessDataResult<List<Report>>(query, "Raporlar Başarıyla Alındı");
 
         }
 
         public IDataResult<Report> Get(Guid id)
         {
-            var query =  _reportRepository.Get(id);
+            var query = _reportRepository.Get(id);
             return new SuccessDataResult<Report>(query, "Rapor Başarıyla Alındı");
 
         }
@@ -49,28 +51,24 @@ namespace SeturAssessment.ReportService.Business.Concrete
             await _reportRepository.UpdateAsync(report);
         }
 
-        public async Task<IDataResult<string>> GetReportBodyAsync()
+        public async Task<IDataResult<string>> GetReportBodyAsync(ResponseModel model)
         {
-            var apiOptions = _configuration.GetSection("ContactApi").Get<ApiOptions>();
-            HttpClient http = new HttpClient
+           
+            IList<ReportBody> query = new List<ReportBody>();
+            var locationList = model.ContactDetails.Select(q => q.Location).Distinct();
+            foreach (var location in locationList.Where(q=>model.location == null || q==model.location ))
             {
-                BaseAddress = new Uri(apiOptions.Url)
-            };
-            http.DefaultRequestHeaders.Accept.Clear();
-            http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-
-            var request = await http.GetAsync(apiOptions.Endpoint);
-            var content = await request.Content.ReadAsStringAsync();
-
-            if (request.IsSuccessStatusCode)
-            {
-                return new SuccessDataResult<string>(content, "Rapor İçeriği Başarıyla Alındı");
+                var x = new ReportBody
+                {
+                    Location = location,
+                    ContactCount = model.ContactDetails.Count(q => q.Location==location),
+                    PhoneNumberCount = model.ContactDetails.Where(q=>!String.IsNullOrEmpty(q.Phone)).Count(q=>q.Location==location),
+                };
+                query.Add(x);
             }
-            else
-            {
-                return new ErrorDataResult<string>("Rapor İçeriği Alınırken  Bir Hata Oluştu");
-            }
+         
+
+            return new SuccessDataResult<string>(JsonConvert.SerializeObject(query), "Rapor İçeriği Oluştu");
 
 
         }
@@ -78,10 +76,6 @@ namespace SeturAssessment.ReportService.Business.Concrete
 
 
 
-        public class ApiOptions
-        {
-            public string Url { get; set; }
-            public string Endpoint { get; set; }
-        }
+
     }
 }

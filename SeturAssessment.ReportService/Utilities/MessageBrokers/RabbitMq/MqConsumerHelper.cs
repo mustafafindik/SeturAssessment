@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -8,9 +9,12 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using SeturAssessment.ContactService.Entities.ViewModels;
 using SeturAssessment.ReportService.Business.Abstract;
 using SeturAssessment.ReportService.DataAccess.Abstract;
 using SeturAssessment.ReportService.Entities.Concrete;
+using SeturAssessment.ReportService.Entities.Dto;
+using SeturAssessment.ReportService.Entities.ViewModels;
 
 namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
 {
@@ -57,10 +61,9 @@ namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
 
                 var body = mq.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                var reportId = new Guid(message.Trim('"'));
 
 
-                HandleMessage(reportId).Wait(stoppingToken);
+                HandleMessage(message).Wait(stoppingToken);
 
             };
 
@@ -71,10 +74,20 @@ namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
         }
 
 
-        private async Task HandleMessage(Guid reportId)
+        private async Task HandleMessage(string message)
         {
-            var report = _reportManager.Get(reportId);
-            var reportBody = await _reportManager.GetReportBodyAsync();
+
+            var result = JsonConvert.DeserializeObject<ResponseModel>(message);
+            Report reportPending = new Report() { RequestDate = DateTime.Now, ReportStatusId = 1 };
+
+            //CreateReport Reading
+            await _reportManager.AddAsync(reportPending);
+            //ReportBody
+            var reportBody = await _reportManager.GetReportBodyAsync(result);
+
+
+            //UpdateReportforReady
+            var report = _reportManager.Get(reportPending.Id);
             report.Data.ReportBody = reportBody.Data;
             report.Data.ReportStatusId = 2;
             await _reportManager.UpdateAsync(report.Data);

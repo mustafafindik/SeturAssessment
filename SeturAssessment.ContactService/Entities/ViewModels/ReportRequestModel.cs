@@ -8,6 +8,6 @@ namespace SeturAssessment.ContactService.Entities.ViewModels
 {
     public class ReportRequestModel: IRequestModel
     {
-        public List<Contact> Contacts { get; set; }
+        public List<ContactDetail> ContactDetails { get; set; }
     }
 }

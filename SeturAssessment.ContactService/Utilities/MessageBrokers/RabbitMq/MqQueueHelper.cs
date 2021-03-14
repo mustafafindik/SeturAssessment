@@ -21,7 +21,7 @@ namespace SeturAssessment.ContactService.Utilities.MessageBrokers.RabbitMq
             var QueueName = _brokerOptions.QueueName;
             var factory = new ConnectionFactory
             {
-                
+
                 HostName = _brokerOptions.HostName,
                 UserName = _brokerOptions.UserName,
                 Password = _brokerOptions.Password,
@@ -36,6 +36,10 @@ namespace SeturAssessment.ContactService.Utilities.MessageBrokers.RabbitMq
                         autoDelete: false,
                         arguments: null);
 
+                JsonConvert.DefaultSettings = () => new Newtonsoft.Json.JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
                 var message = JsonConvert.SerializeObject(model);
                 var body = Encoding.UTF8.GetBytes(message);
 

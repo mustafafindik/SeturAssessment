@@ -47,5 +47,11 @@ namespace SeturAssessment.ContactService.Business.Concrete
             await _contactRepository.DeleteAsync(id);
             return new SuccessResult("Kişi Başarıyla Silindi.");
         }
+
+        public async Task<IDataResult<IList<ContactDetail>>> GetContactDetailsAsync()
+        {
+            var query = await _contactRepository.GetContactDetailsAsync();
+            return new SuccessDataResult<List<ContactDetail>>(query.ToList(), "Detaylar Başarıyla Alındı");
+        }
     }
 }

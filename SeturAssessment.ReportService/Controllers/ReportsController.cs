@@ -55,19 +55,5 @@ namespace SeturAssessment.ReportService.Controllers
         }
 
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add()
-        {
-            var report = new Report() {RequestDate = DateTime.Now, ReportStatusId  =1};
-            var result = await _reportManager.AddAsync(report);
-            if (result.IsSuccess)
-            {
-                return Ok(result.Data);
-            }
-            return BadRequest(new { Message = result.Message });
-           
-
-
-        }
     }
 }
