@@ -14,7 +14,7 @@ namespace SeturAssessment.ContactService.Utilities.Mapping.AutoMapper
         {
             CreateMap<Contact, ContactListDto>()
                 .ForMember(dest => dest.ContactDetail, opt =>
-                       opt.MapFrom(a => a.ContactDetails.Select(q => new ContactDetailListDto(){Id = q.Id, Phone =q.Phone,Email = q.Email,Location = q.Location}).ToArray())) ;
+                       opt.MapFrom(a => a.ContactDetails.Select(q => new ContactDetailDto(){Id = q.Id, Phone =q.Phone,Email = q.Email,Location = q.Location}).ToArray())) ;
 
             CreateMap<Contact, ContactDto>().ReverseMap();
             CreateMap<ContactDetail, ContactDetailDto>().ReverseMap();

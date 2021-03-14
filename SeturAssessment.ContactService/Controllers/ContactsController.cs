@@ -85,12 +85,11 @@ namespace SeturAssessment.ContactService.Controllers
         }
 
 
-        [HttpPost("delete")]
+        [HttpPost("delete/{id}")]
 
-        public async Task<IActionResult> Delete(ContactDto contactDto)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var contact = _mapper.Map<Contact>(contactDto);
-            var result = await _contactManager.DeleteAsync(contact.Id);
+             var result = await _contactManager.DeleteAsync(id);
             if (result.IsSuccess)
             {
                 return Ok(new { Message = result.Message });

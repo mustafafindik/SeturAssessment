@@ -9,7 +9,6 @@ namespace SeturAssessment.ContactService.Entities.Dto
     public class ContactDetailDto:IDto
     {
         public Guid Id { get; set; }
-        public Guid ContactId { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Location { get; set; }

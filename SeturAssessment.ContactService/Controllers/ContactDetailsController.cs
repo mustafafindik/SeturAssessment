@@ -25,10 +25,11 @@ namespace SeturAssessment.ContactService.Controllers
         }
 
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add(ContactDetailDto contactDetailDto)
+        [HttpPost("add/{contactId}")]
+        public async Task<IActionResult> Add(Guid contactId, ContactDetailDto contactDetailDto)
         {
             var contactDetail = _mapper.Map<ContactDetail>(contactDetailDto);
+            contactDetail.ContactId = contactId;
             var result = await _contactDetailManager.AddAsync(contactDetail);
             if (result.IsSuccess)
             {
@@ -40,11 +41,12 @@ namespace SeturAssessment.ContactService.Controllers
 
         }
 
-        [HttpPost("update")]
-        public async Task<IActionResult> Update([FromBody] ContactDetailDto contactDetailDto)
+        [HttpPost("update/{contactId}")]
+        public async Task<IActionResult> Update(Guid contactId, ContactDetailDto contactDetailDto)
         {
-            var contactDetails = _mapper.Map<ContactDetail>(contactDetailDto);
-            var result = await _contactDetailManager.UpdateAsync(contactDetails);
+            var contactDetail = _mapper.Map<ContactDetail>(contactDetailDto);
+            contactDetail.ContactId = contactId;
+            var result = await _contactDetailManager.UpdateAsync(contactDetail);
             if (result.IsSuccess)
             {
                 return Ok(new { Message = result.Message });
@@ -53,11 +55,11 @@ namespace SeturAssessment.ContactService.Controllers
         }
 
 
-        [HttpPost("delete")]
+        [HttpPost("delete/{contactDetailId}")]
 
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid contactDetailId)
         {
-            var result = await _contactDetailManager.DeleteAsync(id);
+            var result = await _contactDetailManager.DeleteAsync(contactDetailId);
             if (result.IsSuccess)
             {
                 return Ok(new { Message = result.Message });
