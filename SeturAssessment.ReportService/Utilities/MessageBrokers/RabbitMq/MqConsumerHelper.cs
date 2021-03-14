@@ -75,9 +75,9 @@ namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
         {
             var report = _reportManager.Get(reportId);
             var reportBody = await _reportManager.GetReportBodyAsync();
-            report.ReportBody = reportBody.Data;
-            report.ReportStatusId = 2;
-            await _reportManager.UpdateAsync(report);
+            report.Data.ReportBody = reportBody.Data;
+            report.Data.ReportStatusId = 2;
+            await _reportManager.UpdateAsync(report.Data);
         }
 
         public virtual void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)

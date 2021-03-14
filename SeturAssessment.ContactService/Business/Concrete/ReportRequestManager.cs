@@ -28,7 +28,7 @@ namespace SeturAssessment.ContactService.Business.Concrete
 
         public async Task<IDataResult<IList<ReportBody>>> GetAll()
         {
-            var query = await _reportRequestRepository.GetReportBodyAsync(); ;
+            var query = await _reportRequestRepository.GetReportBodyAsync();
             return new SuccessDataResult<IList<ReportBody>>(query, "Rapor içeriği Alındı");
         }
 

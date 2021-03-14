@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using SeturAssessment.ReportService.Entities.Abstract;
+using SeturAssessment.ReportService.Entities.Dto;
 
 namespace SeturAssessment.ReportService.Entities.Concrete
 {
@@ -10,6 +13,11 @@ namespace SeturAssessment.ReportService.Entities.Concrete
         public int ReportStatusId { get; set; }
         public ReportStatus ReportStatus { get; set; }
         public string ReportBody { get; set; }
+
+        public ReportBody[] GetnReportBodies()
+        {
+            return JsonConvert.DeserializeObject<List<ReportBody>>(ReportBody).ToArray();
+        }
 
     } 
 }

@@ -1,4 +1,4 @@
-﻿namespace SeturAssessment.ReportService.Entities.Concrete
+﻿namespace SeturAssessment.ReportService.Entities.Dto
 {
     public class ReportBody
     {

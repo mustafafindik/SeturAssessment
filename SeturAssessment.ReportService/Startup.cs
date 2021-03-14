@@ -31,6 +31,7 @@ namespace SeturAssessment.ReportService
         {
 
             services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddDbContext<ApplicationDbContext>(options =>
 
