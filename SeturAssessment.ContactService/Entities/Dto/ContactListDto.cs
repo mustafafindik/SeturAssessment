@@ -14,7 +14,7 @@ namespace SeturAssessment.ContactService.Entities.Dto
         public string LastName { get; set; }
         public string Firm { get; set; }
 
-        public ContactDetailDto[] ContactDetail { get; set; }
+        public ContactDetailListDto[] ContactDetail { get; set; }
        
     }
 }

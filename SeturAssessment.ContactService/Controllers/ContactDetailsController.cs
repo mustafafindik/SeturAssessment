@@ -15,8 +15,55 @@ namespace SeturAssessment.ContactService.Controllers
     [ApiController]
     public class ContactDetailsController : ControllerBase
     {
-      
+        private readonly IContactDetailManager _contactDetailManager;
+        private readonly IMapper _mapper;
 
+        public ContactDetailsController(IMapper mapper, IContactDetailManager contactDetailManager)
+        {
+            _mapper = mapper;
+            _contactDetailManager = contactDetailManager;
+        }
+
+
+        [HttpPost("add")]
+        public async Task<IActionResult> Add(ContactDetailDto contactDetailDto)
+        {
+            var contactDetail = _mapper.Map<ContactDetail>(contactDetailDto);
+            var result = await _contactDetailManager.AddAsync(contactDetail);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
+
+
+
+        }
+
+        [HttpPost("update")]
+        public async Task<IActionResult> Update([FromBody] ContactDetailDto contactDetailDto)
+        {
+            var contactDetails = _mapper.Map<ContactDetail>(contactDetailDto);
+            var result = await _contactDetailManager.UpdateAsync(contactDetails);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
+        }
+
+
+        [HttpPost("delete")]
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await _contactDetailManager.DeleteAsync(id);
+            if (result.IsSuccess)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            return BadRequest(new { Message = result.Message });
+        }
 
     }
 }

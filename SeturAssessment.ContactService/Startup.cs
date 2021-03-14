@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SeturAssessment.ContactService.DataAccess.Concrete.EntityFrameworkCore.Contexts;
+using SeturAssessment.ContactService.DataAccess.Concrete.EntityFrameworkCore.Seeds;
 
 namespace SeturAssessment.ContactService
 {
@@ -66,8 +67,8 @@ namespace SeturAssessment.ContactService
                 endpoints.MapControllers();
             });
 
-            
-            context.Database.Migrate();
+
+            ContactSeedData.Seed(app);
         }
     }
 }

@@ -18,8 +18,6 @@ namespace SeturAssessment.ContactService.Business.Concrete
             _contactRepository = contactRepository;
         }
 
-
-
         public async Task<IDataResult<IList<Contact>>> GetAllAsync()
         {
             var query = await _contactRepository.GetAllAsync("ContactDetails");

@@ -19,10 +19,7 @@ namespace SeturAssessment.ContactService.DataAccess.Concrete.EntityFrameworkCore
         {
           
             var firstContactId = Guid.NewGuid();
-            modelBuilder.Entity<Contact>().HasData(new Contact { Id = firstContactId, FirstName = "Kullanıcı 1" , LastName = "Kullanıcı 1 LastName" , Firm = "Test Firma" });
-         
-
-           
+      
 
         }
     }
