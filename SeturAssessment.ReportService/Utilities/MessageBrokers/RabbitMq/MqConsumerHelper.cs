@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using SeturAssessment.ReportService.Business.Abstract;
 using SeturAssessment.ReportService.DataAccess.Abstract;
 using SeturAssessment.ReportService.Entities.Concrete;
 
@@ -20,11 +21,11 @@ namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
         private string _queueName;
 
         private readonly MessageBrokerOptions _brokerOptions;
-        private readonly IReportRepository _reportRepository;
+        private readonly IReportManager _reportManager;
 
-        public MqConsumerHelper(IConfiguration configuration, IReportRepository reportRepository)
+        public MqConsumerHelper(IConfiguration configuration, IReportManager reportManager)
         {
-            _reportRepository = reportRepository;
+            _reportManager = reportManager;
             _brokerOptions = configuration.GetSection("MessageBrokerOptions").Get<MessageBrokerOptions>();
             InitializeRabbitMqListener();
         }
@@ -72,10 +73,11 @@ namespace SeturAssessment.ReportService.Utilities.MessageBrokers.RabbitMq
 
         private async Task HandleMessage(Guid reportId)
         {
-            var repo = _reportRepository.Get(reportId);
-
-            repo.ReportBody = "test";
-            await _reportRepository.UpdateAsync(repo);
+            var report = _reportManager.Get(reportId);
+            var reportBody = await _reportManager.GetReportBodyAsync();
+            report.ReportBody = reportBody.Data;
+            report.ReportStatusId = 2;
+            await _reportManager.UpdateAsync(report);
         }
 
         public virtual void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)
