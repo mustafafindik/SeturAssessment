@@ -5,11 +5,7 @@ using System.Threading.Tasks;
 
 namespace SeturAssessment.ContactService.Entities.ViewModels
 {
-    public class ReportBody
+    public interface IRequestModel
     {
-        public string Location { get; set; }
-        public int ContactCount { get; set; }
-        public int PhoneNumberCount { get; set; }
-
     }
 }

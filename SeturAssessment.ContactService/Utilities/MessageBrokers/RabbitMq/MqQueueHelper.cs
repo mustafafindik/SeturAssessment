@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using SeturAssessment.ContactService.Entities.ViewModels;
 
 namespace SeturAssessment.ContactService.Utilities.MessageBrokers.RabbitMq
 {
@@ -15,7 +16,7 @@ namespace SeturAssessment.ContactService.Utilities.MessageBrokers.RabbitMq
             _brokerOptions = Configuration.GetSection("MessageBrokerOptions").Get<MessageBrokerOptions>();
         }
 
-        public void QueueMessage(string messageText)
+        public void QueueMessage(IRequestModel model)
         {
             var QueueName = _brokerOptions.QueueName;
             var factory = new ConnectionFactory
@@ -35,7 +36,7 @@ namespace SeturAssessment.ContactService.Utilities.MessageBrokers.RabbitMq
                         autoDelete: false,
                         arguments: null);
 
-                var message = JsonConvert.SerializeObject(messageText);
+                var message = JsonConvert.SerializeObject(model);
                 var body = Encoding.UTF8.GetBytes(message);
 
                 channel.BasicPublish(exchange: "", routingKey: QueueName, basicProperties: null, body: body);

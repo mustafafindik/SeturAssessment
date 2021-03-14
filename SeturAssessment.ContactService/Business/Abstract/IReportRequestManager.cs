@@ -10,8 +10,7 @@ namespace SeturAssessment.ContactService.Business.Abstract
 {
     public interface IReportRequestManager
     {
-        Task<IDataResult<IList<ReportBody>>> GetAll();
-        Task<IDataResult<Report>> SendReportRequestAsync();
+       
 
     }
 }

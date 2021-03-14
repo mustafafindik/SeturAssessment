@@ -8,6 +8,5 @@ namespace SeturAssessment.ContactService.DataAccess.Abstract
 {
     public interface IReportRequestRepository
     {
-        Task<IList<ReportBody>> GetReportBodyAsync();
     }
 }

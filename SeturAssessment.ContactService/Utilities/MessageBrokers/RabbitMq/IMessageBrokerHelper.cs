@@ -1,7 +1,9 @@
-﻿namespace SeturAssessment.ContactService.Utilities.MessageBrokers.RabbitMq
+﻿using SeturAssessment.ContactService.Entities.ViewModels;
+
+namespace SeturAssessment.ContactService.Utilities.MessageBrokers.RabbitMq
 {
     public interface IMessageBrokerHelper
     {
-        void QueueMessage(string messageText);
+        void QueueMessage(IRequestModel model);
     }
 }
