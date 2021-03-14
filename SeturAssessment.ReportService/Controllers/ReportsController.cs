@@ -27,14 +27,22 @@ namespace SeturAssessment.ReportService.Controllers
         {
 
             var result = _reportManager.GetAll();
-             return  Ok(result);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(new { Message = result.Message });
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(Guid id)
         {
             var result = _reportManager.Get(id);
-            return Ok(result);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(new { Message = result.Message });
 
         }
 
@@ -44,8 +52,12 @@ namespace SeturAssessment.ReportService.Controllers
         {
             var report = new Report() {RequestDate = DateTime.Now, ReportStatusId  =1};
             var result = await _reportManager.AddAsync(report);
-
-            return Ok(result);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(new { Message = result.Message });
+           
 
 
         }

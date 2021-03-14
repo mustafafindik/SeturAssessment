@@ -9,9 +9,9 @@ namespace SeturAssessment.ReportService.Business.Abstract
 {
     public interface IReportManager
     {
-        IList<Report> GetAll();
-        Report Get(Guid id);
-        Task<Report> AddAsync(Report report);
+        IDataResult<IList<Report>> GetAll();
+        IDataResult<Report> Get(Guid id);
+        Task<IDataResult<Report>> AddAsync(Report report);
         Task<IDataResult<string>> GetReportBodyAsync();
         Task UpdateAsync(Report report);
 

@@ -23,20 +23,25 @@ namespace SeturAssessment.ReportService.Business.Concrete
             _configuration = configuration;
         }
 
-        public IList<Report> GetAll()
+        public IDataResult<IList<Report>> GetAll()
         {
-            return _reportRepository.GetAll().ToList();
+            var query= _reportRepository.GetAll().ToList();
+            return new SuccessDataResult<List<Report>>(query, "Raporlar Başarıyla Alındı");
+
         }
 
-        public Report Get(Guid id)
+        public IDataResult<Report> Get(Guid id)
         {
-            return _reportRepository.Get(id);
+            var query =  _reportRepository.Get(id);
+            return new SuccessDataResult<Report>(query, "Rapor Başarıyla Alındı");
+
         }
 
-        public async Task<Report> AddAsync(Report report)
+        public async Task<IDataResult<Report>> AddAsync(Report report)
         {
-            var result = await _reportRepository.AddAsync(report);
-            return result;
+            var query = await _reportRepository.AddAsync(report);
+            return new SuccessDataResult<Report>(query, "Rapor Başarıyla Alındı");
+
         }
 
         public async Task UpdateAsync(Report report)
