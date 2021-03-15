@@ -1,8 +1,9 @@
 # SeturAssessment
 
 ### Notlar
-- ReportService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString (PostgreSql) ve RabbitMQ için MessageBrokerOptions değerlerini Değiştirin
-- ContactService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString (PostgreSql) ve RabbitMQ için MessageBrokerOptions değerlerini Değiştirin
+- ReportService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString (PostgreSql) ve RabbitMQ için MessageBrokerOptions değerlerini Değiştirin. 
+- ContactService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString (PostgreSql) ve RabbitMQ için MessageBrokerOptions değerlerini Değiştirin.
+- (İki MessageBrokerOptions içindeki QueueName Aynı Olmalı)
 - SeedData Eklendi.
 - Migration'lar Otomatik Uygulanıyor.
 - Projelerin ikisini Beraber Çalıştırınız..
