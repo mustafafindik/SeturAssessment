@@ -35,7 +35,7 @@ namespace SeturAssessment.ReportService
 
             services.AddDbContext<ApplicationDbContext>(options =>
 
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SeturAssessment.ReportService")).EnableSensitiveDataLogging(), ServiceLifetime.Scoped
+                    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SeturAssessment.ReportService")).EnableSensitiveDataLogging(), ServiceLifetime.Scoped
 
             );
 

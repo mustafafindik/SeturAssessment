@@ -17,6 +17,8 @@ namespace SeturAssessment.ContactService.DataAccess.Concrete.EntityFrameworkCore
 
             var context = app.ApplicationServices.GetRequiredService<ApplicationDbContext>();
 
+            context.Database.Migrate();
+
 
             if (!context.Contacts.Any())
             {

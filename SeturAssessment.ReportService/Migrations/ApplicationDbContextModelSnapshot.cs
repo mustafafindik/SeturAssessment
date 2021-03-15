@@ -2,8 +2,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SeturAssessment.ReportService.DataAccess.Concrete.EntityFrameworkCore.Contexts;
 
 namespace SeturAssessment.ReportService.Migrations
@@ -15,19 +15,41 @@ namespace SeturAssessment.ReportService.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.4")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+            modelBuilder.Entity("SeturAssessment.ReportService.Entities.Concrete.Report", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ReportBody")
+                        .HasColumnType("text");
+
+                    b.Property<int>("ReportStatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("RequestDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReportStatusId");
+
+                    b.ToTable("Reports");
+                });
 
             modelBuilder.Entity("SeturAssessment.ReportService.Entities.Concrete.ReportStatus", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("StatusName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -46,29 +68,7 @@ namespace SeturAssessment.ReportService.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SeturAssessment.ReportService.Entities.Concrete.Reports", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ReportBody")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ReportStatusId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("RequestDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReportStatusId");
-
-                    b.ToTable("Reports");
-                });
-
-            modelBuilder.Entity("SeturAssessment.ReportService.Entities.Concrete.Reports", b =>
+            modelBuilder.Entity("SeturAssessment.ReportService.Entities.Concrete.Report", b =>
                 {
                     b.HasOne("SeturAssessment.ReportService.Entities.Concrete.ReportStatus", "ReportStatus")
                         .WithMany()

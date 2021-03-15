@@ -37,7 +37,7 @@ namespace SeturAssessment.ContactService
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<ApplicationDbContext>(options =>
 
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SeturAssessment.ContactService")).EnableSensitiveDataLogging(), ServiceLifetime.Scoped
+                    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SeturAssessment.ContactService")).EnableSensitiveDataLogging(), ServiceLifetime.Scoped
 
             );
             services.AddSwaggerGen(c =>

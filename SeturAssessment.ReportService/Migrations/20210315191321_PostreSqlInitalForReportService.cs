@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SeturAssessment.ReportService.Migrations
 {
-    public partial class ReportInital : Migration
+    public partial class PostreSqlInitalForReportService : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,9 +12,9 @@ namespace SeturAssessment.ReportService.Migrations
                 name: "ReportStatuses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StatusName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    StatusName = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -24,10 +25,10 @@ namespace SeturAssessment.ReportService.Migrations
                 name: "Reports",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RequestDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
-                    ReportStatusId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    RequestDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    ReportStatusId = table.Column<int>(type: "integer", nullable: false),
+                    ReportBody = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -37,7 +38,16 @@ namespace SeturAssessment.ReportService.Migrations
                         column: x => x.ReportStatusId,
                         principalTable: "ReportStatuses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "ReportStatuses",
+                columns: new[] { "Id", "StatusName" },
+                values: new object[,]
+                {
+                    { 1, "Hazırlanıyor" },
+                    { 2, "Tamamlandı" }
                 });
 
             migrationBuilder.CreateIndex(
