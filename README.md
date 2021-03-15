@@ -1,12 +1,15 @@
 # SeturAssessment
 
 ### Notlar
-- ReportService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString (PostgreSql) ve RabbitMQ için MessageBrokerOptions Değiştirin
-- ContactService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString (PostgreSql) ve RabbitMQ için MessageBrokerOptions Değiştirin
+- ReportService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString (PostgreSql) ve RabbitMQ için MessageBrokerOptions değerlerini Değiştirin
+- ContactService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString (PostgreSql) ve RabbitMQ için MessageBrokerOptions değerlerini Değiştirin
 - SeedData Eklendi.
 - Migration'lar Otomatik Uygulanıyor.
+- Projelerin ikisini Beraber Çalıştırınız..
 
-- Zaman Azlığından UnitTest , FluentValidation ,Serilog ,Jwt kullanılamıştır. Zaman olsaydı Ekleyecektim.
+______
+
+- Zaman Azlığından UnitTest , FluentValidation ,Serilog ,Jwt kullanılmamıştır. Zaman olsaydı Ekleyecektim.
 
  
 ### Teknolojiler
@@ -31,11 +34,11 @@
 - /api/ContactDetails/update/{contactId}   : Verilen ContactId'e İletişim Bilgisini Günceller.
 - /api/ContactDetails/delete/{contactDetailId} : Verilen ContactDetailId'e İletişim Bilgisini Siler.
 
-- /api/ReportRequests/RequestReport : Tüm Lokasyonlar için Rapor İsteği Yapar.
-- /api/ReportRequests/RequestReport/{location} : Verilen Lokasyon için Rapor İsteği Yapar
+- /api/ReportRequests/RequestReport : Tüm Lokasyonlar için Rapor İsteği Yapar. (RabbitMq Producer)
+- /api/ReportRequests/RequestReport/{location} : Verilen Lokasyon için Rapor İsteği Yapar  (RabbitMq Producer)
 
 ### ReportService
--- Base: https://localhost:44303
+-- Base: https://localhost:44303   (RabbitMq Consumer Background)
 
-- /api/Reports : Tüm Raporları Getirir.
-- /api/Reports/{id} : Verilen Id'e ait raporları getirir.
+- /api/Reports : Tüm Raporları Getirir. 
+- /api/Reports/{id} : Verilen Id'e ait raporları getirir.  
