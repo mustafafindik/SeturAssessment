@@ -14,14 +14,6 @@ namespace SeturAssessment.ContactService.DataAccess.Concrete.EntityFrameworkCore
 
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<ContactDetail> ContactDetails { get; set; }
-      
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-          
-            var firstContactId = Guid.NewGuid();
-      
-
-        }
     }
     
 

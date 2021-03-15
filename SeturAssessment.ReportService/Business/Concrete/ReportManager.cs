@@ -11,6 +11,7 @@ using SeturAssessment.ReportService.Business.Abstract;
 using SeturAssessment.ReportService.DataAccess.Abstract;
 using SeturAssessment.ReportService.Entities.Concrete;
 using SeturAssessment.ReportService.Entities.Dto;
+using SeturAssessment.ReportService.Utilities.Constants;
 using SeturAssessment.ReportService.Utilities.Results;
 
 namespace SeturAssessment.ReportService.Business.Concrete
@@ -28,28 +29,25 @@ namespace SeturAssessment.ReportService.Business.Concrete
         public IDataResult<IList<Report>> GetAll()
         {
             var query = _reportRepository.GetAll().ToList();
-            return new SuccessDataResult<List<Report>>(query, "Raporlar Başarıyla Alındı");
+            return new SuccessDataResult<List<Report>>(query, Messages.ReportsGet);
 
         }
 
         public IDataResult<Report> Get(Guid id)
         {
             var query = _reportRepository.Get(id);
-            return new SuccessDataResult<Report>(query, "Rapor Başarıyla Alındı");
+            return new SuccessDataResult<Report>(query, Messages.ReportGet);
 
         }
 
         public async Task<IDataResult<Report>> AddAsync(Report report)
         {
             var query = await _reportRepository.AddAsync(report);
-            return new SuccessDataResult<Report>(query, "Rapor Başarıyla Alındı");
+            return new SuccessDataResult<Report>(query, Messages.ReportAdded);
 
         }
 
-        public async Task UpdateAsync(Report report)
-        {
-            await _reportRepository.UpdateAsync(report);
-        }
+      
 
         public async Task<IDataResult<string>> GetReportBodyAsync(ResponseModel model)
         {
@@ -68,14 +66,15 @@ namespace SeturAssessment.ReportService.Business.Concrete
             }
          
 
-            return new SuccessDataResult<string>(JsonConvert.SerializeObject(query), "Rapor İçeriği Oluştu");
+            return new SuccessDataResult<string>(JsonConvert.SerializeObject(query), Messages.ReportBodyCreated);
 
 
         }
 
-
-
-
-
+        public async  Task<IResult> UpdateAsync(Report report)
+        {
+            await _reportRepository.UpdateAsync(report);
+            return new SuccessResult(Messages.ReportUpdated);
+        }
     }
 }

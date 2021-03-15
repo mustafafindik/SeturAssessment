@@ -36,7 +36,7 @@ namespace SeturAssessment.ContactService.Controllers
             if (result.IsSuccess)
             {
                 ReportRequestModel reportRequestModel = new ReportRequestModel();
-                reportRequestModel.ContactDetails = result.Data.ToList();;
+                reportRequestModel.ContactDetails = result.Data.ToList();
                 _messageBrokerHelper.QueueMessage(reportRequestModel);
                 return Ok(Messages.ReportRequestCreated);
             }

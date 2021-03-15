@@ -14,7 +14,7 @@ namespace SeturAssessment.ReportService.Business.Abstract
         IDataResult<Report> Get(Guid id);
         Task<IDataResult<Report>> AddAsync(Report report);
         Task<IDataResult<string>> GetReportBodyAsync(ResponseModel model);
-        Task UpdateAsync(Report report);
+        Task<IResult> UpdateAsync(Report report);
 
 
     }
