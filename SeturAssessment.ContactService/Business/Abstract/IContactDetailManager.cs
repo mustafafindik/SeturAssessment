@@ -9,6 +9,7 @@ namespace SeturAssessment.ContactService.Business.Abstract
 {
     public interface IContactDetailManager
     {
+        Task<IDataResult<IList<ContactDetail>>> GetContactDetailsAsync();
         Task<IResult> AddAsync(ContactDetail contactDetail);
         Task<IResult> UpdateAsync(ContactDetail contactDetail);
         Task<IResult> DeleteAsync(Guid id);

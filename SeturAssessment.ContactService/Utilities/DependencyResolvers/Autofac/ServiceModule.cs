@@ -21,12 +21,6 @@ namespace SeturAssessment.ContactService.Utilities.DependencyResolvers.Autofac
             builder.RegisterType<ContactDetailManager>().As<IContactDetailManager>().SingleInstance();
             builder.RegisterType<ContactDetailRepository>().As<IContactDetailRepository>().SingleInstance();
 
-    
-
-            builder.RegisterType<ReportRequestManager>().As<IReportRequestManager>().SingleInstance();
-            builder.RegisterType<ReportRequestRepository>().As<IReportRequestRepository>().SingleInstance();
-
-
             builder.RegisterType<MqQueueHelper>().As<IMessageBrokerHelper>().SingleInstance();
 
         }

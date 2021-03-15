@@ -8,6 +8,5 @@ namespace SeturAssessment.ContactService.DataAccess.Abstract
 {
     public interface IContactRepository : IEntityRepository<Contact,Guid>
     {
-        Task<IEnumerable<ContactDetail>> GetContactDetailsAsync();
     }
 }

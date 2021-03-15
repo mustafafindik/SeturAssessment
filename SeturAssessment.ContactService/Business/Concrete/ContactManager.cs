@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using SeturAssessment.ContactService.Business.Abstract;
 using SeturAssessment.ContactService.DataAccess.Abstract;
 using SeturAssessment.ContactService.Entities.Concrete;
+using SeturAssessment.ContactService.Utilities.Constants;
 using SeturAssessment.ContactService.Utilities.Results;
 
 namespace SeturAssessment.ContactService.Business.Concrete
@@ -21,37 +22,33 @@ namespace SeturAssessment.ContactService.Business.Concrete
         public async Task<IDataResult<IList<Contact>>> GetAllAsync()
         {
             var query = await _contactRepository.GetAllAsync("ContactDetails");
-            return new SuccessDataResult<List<Contact>>(query.ToList(), "Kişiler Başarıyla Alındı");
+            return new SuccessDataResult<List<Contact>>(query.ToList(), Messages.ContactsGet);
         }
 
         public async Task<IDataResult<Contact>> GetAsync(Guid id)
         {
             var query = await _contactRepository.GetAsync(q => q.Id == id, "ContactDetails");
-            return new SuccessDataResult<Contact>(query, "Kişi Başarıyla Alındı");
+            return new SuccessDataResult<Contact>(query, Messages.ContactGet);
         }
 
         public  async Task<IResult> AddAsync(Contact contact)
         {
             await _contactRepository.AddAsync(contact);
-            return new SuccessResult("Kişi Başarıyla Kaydedildi.");
+            return new SuccessResult(Messages.ContactAdded);
         }
 
         public async Task<IResult> UpdateAsync(Contact contact)
         {
             await _contactRepository.UpdateAsync(contact, contact.Id);
-            return new SuccessResult("Kişi Başarıyla Güncellendi.");
+            return new SuccessResult(Messages.ContactUpdated);
         }
 
         public async Task<IResult> DeleteAsync(Guid id)
         {
             await _contactRepository.DeleteAsync(id);
-            return new SuccessResult("Kişi Başarıyla Silindi.");
+            return new SuccessResult(Messages.ContactDeleted);
         }
 
-        public async Task<IDataResult<IList<ContactDetail>>> GetContactDetailsAsync()
-        {
-            var query = await _contactRepository.GetContactDetailsAsync();
-            return new SuccessDataResult<List<ContactDetail>>(query.ToList(), "Detaylar Başarıyla Alındı");
-        }
+      
     }
 }

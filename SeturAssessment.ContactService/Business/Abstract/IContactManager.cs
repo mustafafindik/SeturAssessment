@@ -14,7 +14,6 @@ namespace SeturAssessment.ContactService.Business.Abstract
         Task<IResult> AddAsync(Contact contact);
         Task<IResult> UpdateAsync(Contact contact);
         Task<IResult> DeleteAsync(Guid id);
-        Task<IDataResult<IList<ContactDetail>>> GetContactDetailsAsync();
 
     }
 }

@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using SeturAssessment.ContactService.Business.Abstract;
 using SeturAssessment.ContactService.DataAccess.Abstract;
 using SeturAssessment.ContactService.Entities.ViewModels;
+using SeturAssessment.ContactService.Utilities.Constants;
 using SeturAssessment.ContactService.Utilities.MessageBrokers.RabbitMq;
 
 namespace SeturAssessment.ContactService.Controllers
@@ -17,14 +18,12 @@ namespace SeturAssessment.ContactService.Controllers
     [ApiController]
     public class ReportRequestsController : ControllerBase
     {
-        private readonly IReportRequestManager _reportRequestManager;
         private readonly IMessageBrokerHelper _messageBrokerHelper;
-        private readonly IContactManager _contactManager;
-        public ReportRequestsController(IReportRequestManager reportRequestManager, IMessageBrokerHelper messageBrokerHelper, IContactManager contactManager)
+        private readonly IContactDetailManager _contactDetailManager;
+        public ReportRequestsController(IMessageBrokerHelper messageBrokerHelper, IContactDetailManager contactDetailManager)
         {
-            _reportRequestManager = reportRequestManager;
             _messageBrokerHelper = messageBrokerHelper;
-            _contactManager = contactManager;
+            _contactDetailManager = contactDetailManager;
         }
 
    
@@ -33,13 +32,13 @@ namespace SeturAssessment.ContactService.Controllers
         [HttpPost("RequestReport")]
         public async Task<IActionResult> RequestReport()
         {
-            var result = await _contactManager.GetContactDetailsAsync();
+            var result = await _contactDetailManager.GetContactDetailsAsync();
             if (result.IsSuccess)
             {
                 ReportRequestModel reportRequestModel = new ReportRequestModel();
                 reportRequestModel.ContactDetails = result.Data.ToList();;
                 _messageBrokerHelper.QueueMessage(reportRequestModel);
-                return Ok("Rapor Talebi Oluşturuldu");
+                return Ok(Messages.ReportRequestCreated);
             }
             return BadRequest(new { Message = result.Message });
    
@@ -49,14 +48,14 @@ namespace SeturAssessment.ContactService.Controllers
         [HttpPost("RequestReport/{location}")]
         public async Task<IActionResult> RequestReportWithLocation(string location)
         {
-            var result = await _contactManager.GetContactDetailsAsync();
+            var result = await _contactDetailManager.GetContactDetailsAsync();
             if (result.IsSuccess)
             {
                 ReportRequestModelWithLocation reportRequestModel = new ReportRequestModelWithLocation();
                 reportRequestModel.ContactDetails = result.Data.ToList();
                 reportRequestModel.location = location;
                 _messageBrokerHelper.QueueMessage(reportRequestModel);
-                return Ok($"{location} için Rapor Talebi Oluşturuldu");
+                return Ok($"{location} {Messages.ReportRequestCreatedForLocation}");
             }
             return BadRequest(new { Message = result.Message });
 
