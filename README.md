@@ -1,10 +1,12 @@
 # SeturAssessment
 
 ### Notlar
-- ReportService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString ve RabbitMQ için MessageBrokerOptions Değiştirin
-- ContactService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString ve RabbitMQ için MessageBrokerOptions Değiştirin
+- ReportService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString (PostgreSql) ve RabbitMQ için MessageBrokerOptions Değiştirin
+- ContactService'deki Appsetting.Json içinde, Db Bağlantı içi  ConnectionString (PostgreSql) ve RabbitMQ için MessageBrokerOptions Değiştirin
 - SeedData Eklendi.
 - Migration'lar Otomatik Uygulanıyor.
+
+- Zaman Azlığından UnitTest , FluentValidation ,Serilog ,Jwt kullanılamıştır. Zaman olsaydı Ekleyecektim.
 
  
 ### Teknolojiler
@@ -13,6 +15,7 @@
 - AutoMapper
 - RabbitMQ
 - Swagger
+- PostgreSql
 
 
 ### ContactService
